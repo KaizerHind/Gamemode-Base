@@ -38,7 +38,7 @@
 
 # • **Español:**
 
-Esta gamemode es una base la cual contiene unicamente un sistema de Registro Basico(Test de Rol, Registro, Ingreso y otros datos). La gamemode fue desarrollada de manera **'Modular'**, por lo que parte del codigo esta distribuido en **.gamemode/content**, cabe resaltar que si alguien le añade un sistema de muebles o algo relacionado a edicion de objetos, y deben utilizar los siguientes parametros **OnPlayerPickUpDynamicPickup, OnPlayerSelectDynamicObject,OnPlayerEditDynamicObject**, deberan añadir esto en index.pwn, en el modulo **system**, puede ser debajo del modulo **roltest**.
+Esta gamemode es una base la cual contiene unicamente un sistema de Registro Basico(**Test de Rol**, **Registro**, **Ingreso** y otros datos). La gamemode fue desarrollada de manera **'Modular'**, por lo que parte del codigo esta distribuido en **.gamemode/content**, cabe resaltar que si alguien le añade un sistema de muebles o algo relacionado a edicion de objetos, y deben utilizar los siguientes parametros **OnPlayerPickUpDynamicPickup, OnPlayerSelectDynamicObject,OnPlayerEditDynamicObject**, deberan añadir esto en index.pwn, en el modulo **system**, puede ser debajo del modulo **roltest**.
 
 **Contenido:**
 
