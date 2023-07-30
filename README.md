@@ -26,13 +26,15 @@
 
 - [Crashdetect](https://github.com/Zeex/samp-plugin-crashdetect)
 
+- [MySQL-r41](https://github.com/pBlueG/SA-MP-MySQL)
+
 - [streamer](https://github.com/samp-incognito/samp-streamer-plugin)
 
 - [sscaf](https://github.com/maddinat0r/sscanf)
 
-- [MySQL-r41](https://github.com/pBlueG/SA-MP-MySQL)
-
 - [YSI-Includes(v5.06.1932)](https://github.com/pawn-lang/YSI-Includes/releases/tag/v5.06.1932)
+
+- [Discord Connector](https://github.com/maddinat0r/samp-discord-connector)
 
 ---
 
