@@ -15,9 +15,8 @@
     
     KaizerHind - Developer.
     D13G0 - Doubts about MySql.
-    root - Hash password solution.
+    r99t - Hash password solution and Doubts about MySql.
     Galasso - Hash password solution.
-    r99t - Doubts about MySql.
 
 ---
 
