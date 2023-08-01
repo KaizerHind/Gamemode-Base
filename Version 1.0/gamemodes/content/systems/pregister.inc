@@ -72,6 +72,28 @@ public OnGameModeExit()
 	forward pregister_OnGameModeExit();
 #endif
 
+public OnPlayerRequestClass(playerid, classid)
+{
+	StartLoginCamera(playerid);
+	/* ############### DON TOUCH ############### */
+	#if defined pregister_OnPlayerRequestClass
+		return pregister_OnPlayerRequestClass(playerid, classid);
+	#else
+		return 0;
+	#endif
+}
+
+#if defined _ALS_OnPlayerRequestClass
+	#undef OnPlayerRequestClass
+#else
+	#define _ALS_OnPlayerRequestClass
+#endif
+
+#define OnPlayerRequestClass pregister_OnPlayerRequestClass
+#if defined pregister_OnPlayerRequestClass
+	forward pregister_OnPlayerRequestClass(playerid, classid);
+#endif
+
 public OnPlayerConnect(playerid)
 {
 	if(playerid >= MAX_PLAYERS)
@@ -105,9 +127,9 @@ public OnPlayerConnect(playerid)
 		return 1;
 	}
 
+	//StartLoginCamera(playerid);
 	ValidateUppercase(playerid, last_name, NamePosition);
 	SetPlayerColor(playerid, HCOL_WHITE);
-	StartLoginCamera(playerid);
 	PreloadAnimLibs(playerid);
 	ShowServerNameTD(playerid);
 
@@ -191,6 +213,7 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 	}
 
 	if(cache_num_rows() > 0){
+		new hash[64 + 1];
 		ClearChat(playerid, 100);
 		cache_get_value_name(0, "Password", hash);
 		format(PlayerData[playerid][jPass], 65, "%s", hash);
@@ -226,7 +249,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				SHA256_PassHash(inputtext, "123h1h23hh", megahash, 64);
 				if(strcmp(PlayerData[playerid][jPass], megahash, false) == 0)
 				{
-					mysql_tquery(DB, global_str, "PlayerIngreso", "d", playerid);
+					mysql_format(DB, global_str, sizeof global_str, "SELECT * FROM users WHERE Name = '%e'  LIMIT 1", PlayerName(playerid));
+					mysql_tquery(DB, global_str, "PlayerIngreso", "i", playerid);
 					SendClientMessage(playerid, -1, "Bienvenido de nuevo, te echabamos de menos.");
 					
 					/* Discord: discord.inc */
