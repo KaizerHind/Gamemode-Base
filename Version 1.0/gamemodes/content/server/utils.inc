@@ -67,21 +67,6 @@ stock CommandError(playerid)
 	TextDrawShowForPlayer(playerid, tdError[0]); TextDrawShowForPlayer(playerid, tdError[1]); TextDrawShowForPlayer(playerid, tdError[2]); return 1;
 }
 
-stock IsNumeric(const string[])
-{
-    new length=strlen(string);
-    if (length==0) return false;
-    for (new i = 0; i < length; i++) {
-        if (
-        (string[i] > '9' || string[i] < '0' && string[i]!='-' && string[i]!='+')
-        || (string[i]=='-' && i!=0)                                             //
-        || (string[i]=='+' && i!=0)                                             //
-        ) return false;
-    }
-    if (length==1 && (string[0]=='-' || string[0]=='+')) return false;
-	return true;
-}
-
 stock Shortname(playerid){return IndividualName[playerid];}
 
 ValidateUppercase(playerid, lastname[], nPosition)
