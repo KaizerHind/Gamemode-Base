@@ -25,9 +25,9 @@ enum jInfo
 new PlayerData[MAX_PLAYERS][jInfo];
 
 /* -= Mysql Vars =- */
+
 new	
 	MySQL:DB,
-	hash[64 + 1],
 	IndividualName[MAX_PLAYERS][MAX_PLAYER_NAME],
 	IndividualPlayerName[MAX_PLAYERS][MAX_PLAYER_NAME]
     ;
