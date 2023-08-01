@@ -5,7 +5,7 @@
 
  - Download the [database]((https://github.com/KaizerHind/GamemodeBase_MySQL/blob/master/Database/dbserver.sql)), go to [Xampp](http://localhost/phpmyadmin/server_import.php) and create a new clean database, then import the new one.
 
- - Download the [gamemode](https://github.com/KaizerHind/GamemodeBase_MySQL/archive/refs/heads/master.zip) and extract the content to the path you want.
+ - Download the [gamemode](https://github.com/KaizerHind/Gamemode-Base/archive/refs/heads/1.0.zip) and extract the content to the path you want.
 
  - Lastly, remember to configure the [mysql.ini](https://github.com/KaizerHind/GamemodeBase_MySQL/blob/master/mysql.ini) file, which contains the database configuration.
 
@@ -15,9 +15,8 @@
     
     KaizerHind - Developer.
     D13G0 - Doubts about MySql.
-    root - Hash password solution.
+    r99t - Hash password solution and Doubts about MySql.
     Galasso - Hash password solution.
-    r99t - Doubts about MySql.
 
 ---
 
@@ -27,44 +26,46 @@
 
 - [Crashdetect](https://github.com/Zeex/samp-plugin-crashdetect)
 
+- [MySQL-r41](https://github.com/pBlueG/SA-MP-MySQL)
+
 - [streamer](https://github.com/samp-incognito/samp-streamer-plugin)
 
 - [sscaf](https://github.com/maddinat0r/sscanf)
 
-- [MySQL-r41](https://github.com/pBlueG/SA-MP-MySQL)
-
 - [YSI-Includes(v5.06.1932)](https://github.com/pawn-lang/YSI-Includes/releases/tag/v5.06.1932)
+
+- [Discord Connector](https://github.com/maddinat0r/samp-discord-connector)
 
 ---
 
-# • **Español:**
+# â€¢ **EspaÃ±ol:**
 
-Esta gamemode es una base la cual contiene unicamente un sistema de Registro Basico(Test de Rol, Registro, Ingreso y otros datos). La gamemode fue desarrollada de manera **'Modular'**, por lo que parte del codigo esta distribuido en **.gamemode/content**, cabe resaltar que si alguien le añade un sistema de muebles o algo relacionado a edicion de objetos, y deben utilizar los siguientes parametros **OnPlayerPickUpDynamicPickup, OnPlayerSelectDynamicObject,OnPlayerEditDynamicObject**, deberan añadir esto en index.pwn, en el modulo **system**, puede ser debajo del modulo **roltest**.
+Esta gamemode es una base la cual contiene unicamente un sistema de Registro Basico(**Test de Rol**, **Registro**, **Ingreso** y otros datos). La gamemode fue desarrollada de manera **'Modular'**, por lo que parte del codigo esta distribuido en **.gamemode/content**, cabe resaltar que si alguien le aÃ±ade un sistema de muebles o algo relacionado a edicion de objetos, y deben utilizar los siguientes parametros **OnPlayerPickUpDynamicPickup, OnPlayerSelectDynamicObject,OnPlayerEditDynamicObject**, deberan aÃ±adir esto en index.pwn, en el modulo **system**, puede ser debajo del modulo **roltest**.
 
 **Contenido:**
 
-    |— gamemodes
-    |—— index - .pwn - File Pwn.
-    |——— content\ - Contenido del Servidor. (Modulo principal)
-    |———— content\cmds - Comandos del jugador y administrativos.
-    |———— content\designs - Mapas y Textdraws.
-    |———— content\includes - Includes modificados y conexion con sistemas.
-    |———— content\server - Variables, macros, conexiones y otros.
-    |———— content\systems - Sistemas desarrollados y conectados con el modulo principal.
+    |â€” gamemodes
+    |â€”â€” index - .pwn - File Pwn.
+    |â€”â€”â€” content\ - Contenido del Servidor. (Modulo principal)
+    |â€”â€”â€”â€” content\cmds - Comandos del jugador y administrativos.
+    |â€”â€”â€”â€” content\designs - Mapas y Textdraws.
+    |â€”â€”â€”â€” content\includes - Includes modificados y conexion con sistemas.
+    |â€”â€”â€”â€” content\server - Variables, macros, conexiones y otros.
+    |â€”â€”â€”â€” content\systems - Sistemas desarrollados y conectados con el modulo principal.
 
-# • **English:**
+# â€¢ **English:**
 
 This gamemode is a base which contains only a Basic Registration system(**Proof of Role**, **Registration** and **Login** and other data). The gamemode was developed in a **'Modular'** way, so part of the code is distributed in **.gamemode/content**, it should be noted that if someone adds a furniture system or something related to object editing, and they must use the following parameters **OnPlayerPickUpDynamicPickup , OnPlayerSelectDynamicObject, OnPlayerEditDynamicObject,** you should add this in index.pwn, in the **system** module, below the **roltest** module.
 
 **Content:**
 
-    |— gamemodes
-    |—— index - .pwn
-    |——— content\ - Content of the server.
-    |———— content\cmds - Commands player & admins
-    |———— content\designs - Maps and Textdraws.
-    |———— content\includes - Includes modified and connected with systems.
-    |———— content\server - Vars, macros, connections and others.
-    |———— content\systems - Systems developed and connected to the gamemode.
+    |â€” gamemodes
+    |â€”â€” index - .pwn
+    |â€”â€”â€” content\ - Content of the server.
+    |â€”â€”â€”â€” content\cmds - Commands player & admins
+    |â€”â€”â€”â€” content\designs - Maps and Textdraws.
+    |â€”â€”â€”â€” content\includes - Includes modified and connected with systems.
+    |â€”â€”â€”â€” content\server - Vars, macros, connections and others.
+    |â€”â€”â€”â€” content\systems - Systems developed and connected to the gamemode.
 
 ----
