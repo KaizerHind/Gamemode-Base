@@ -11,6 +11,8 @@
 - Se corrigio un error el cual no permitia el ingreso de usuarios con el mismo nombre.
 ### Changes 1.0 / 29-07
 - Se añadio una pregunta de seleccion de Ciudad al Registro de cuenta.
+### Changes 1.0 / 02-08
+- Se corrigieron varios errores con respecto al Registro e Inicio de Sesion con respecto al ingreso de jugadores.
 
 ---
 
