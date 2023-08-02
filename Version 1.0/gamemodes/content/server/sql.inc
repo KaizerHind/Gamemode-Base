@@ -25,7 +25,8 @@ forward AccountLoaded(playerid); public AccountLoaded(playerid){
     return 1;
 }
 
-forward LoadAccountID(playerid); public LoadAccountID(playerid) {PlayerData[playerid][ID] = cache_insert_id();}
+forward LoadAccountID(playerid); public LoadAccountID(playerid) {PlayerData[playerid][ID] = cache_insert_id(); return 1;}
+
 forward FinishedIntro(playerid); public FinishedIntro(playerid)
 {
 	TogglePlayerSpectating(playerid, false);

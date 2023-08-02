@@ -166,7 +166,6 @@ forward ProxDetector(Float:radi, playerid, str[], col1, col2, col3, col4, col5);
         new Float:oldposx, Float:oldposy, Float:oldposz;
         new Float:tempposx, Float:tempposy, Float:tempposz;
         GetPlayerPos(playerid, oldposx, oldposy, oldposz);
-        //radi = 2.0; //Trigger Radius
         for(new i = 0; i < MAX_PLAYERS; i++)
         {
             if(IsPlayerConnected(i))
@@ -176,7 +175,6 @@ forward ProxDetector(Float:radi, playerid, str[], col1, col2, col3, col4, col5);
                 tempposx = (oldposx -posx);
                 tempposy = (oldposy -posy);
                 tempposz = (oldposz -posz);
-                //printf("DEBUG: X:%f Y:%f Z:%f",posx,posy,posz);
                 if (((tempposx < radi/16) && (tempposx > -radi/16)) && ((tempposy < radi/16) && (tempposy > -radi/16)) && ((tempposz < radi/16) && (tempposz > -radi/16)))
                 {
                     SendClientMessage(i, col1, str);
