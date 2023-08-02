@@ -127,7 +127,7 @@ public OnPlayerConnect(playerid)
 		return 1;
 	}
 
-	//StartLoginCamera(playerid);
+	
 	ValidateUppercase(playerid, last_name, NamePosition);
 	SetPlayerColor(playerid, HCOL_WHITE);
 	PreloadAnimLibs(playerid);
@@ -136,6 +136,7 @@ public OnPlayerConnect(playerid)
 	mysql_format(DB, global_str, sizeof global_str, "SELECT * FROM users WHERE Name = '%e'  LIMIT 1", PlayerName(playerid));
 	mysql_query(DB, global_str);
 	mysql_tquery(DB, global_str, "OnPlayerDataCheck", "d", playerid);
+
 	/* ############### DON TOUCH ############### */
 	#if defined pregister_OnPlayerConnect
 		return pregister_OnPlayerConnect(playerid);
@@ -177,7 +178,7 @@ public OnPlayerDisconnect(playerid, reason)
 				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
 			}
 		}
-		ProxDetector(20.0, playerid, gbl_log, HCOL_SERVER, HCOL_SERVER, HCOL_SERVER, HCOL_SERVER, HCOL_SERVER);
+		ProxDetector(20.0, playerid, gbl_log, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE);
 		
 		/* Discord: discord.inc */
 		ConvertDiscordText(gbl_log),
@@ -223,6 +224,7 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 	}else{
 
 		ClearChat(playerid, 100);
+		StartLoginCamera(playerid);
 		/* Discord: discord.inc */
 		format(gbl_log, sizeof(gbl_log), "(( `%s` ha ingresado al Servidor y comenzara a realizar el Examen de Rol. **[Part 1/3]** ))",  PlayerTemp(playerid));
 		ConvertDiscordText(gbl_log);
@@ -317,16 +319,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(response)
 			{
-				mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Ropa, Sexo, Edad, Score, Salud, Armadura, Country) VALUES ('%e', '%e', '%i', '%i', '%i', '5', '100', '0', '%e')",
+				mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Ropa, Sexo, Edad, Country) VALUES ('%e', '%e', '%i', '%i', '%i', '%e')",
 				PlayerName(playerid),
 				PlayerData[playerid][TempHash],
 				PlayerData[playerid][jRopa],
 				PlayerData[playerid][jSexo],
 				PlayerData[playerid][jEdad],
-				PlayerData[playerid][jScore],
-				PlayerData[playerid][jHealth],
-				PlayerData[playerid][jArmour],
 				PlayerData[playerid][jCountry]);
+
+				PlayerData[playerid][jScore] = 5;
+				PlayerData[playerid][jHealth] = 100;
+				PlayerData[playerid][jArmour] = 0;
 				mysql_tquery(DB, global_str, "LoadAccountID", "i", playerid);
 
 				FinishedIntro(playerid);
