@@ -7,6 +7,7 @@
 #define HCOL_SERVER     0xA82C23FF
 #define HCOL_WHITE      0xFFFFFFFF
 #define HCOL_BLACK      0x0F0F0FFF
+#define HCOL_TMPGRAY    0x7D7D7DCC    
 
 #define HCOL_MONEY      0x0B6E27FF
 
