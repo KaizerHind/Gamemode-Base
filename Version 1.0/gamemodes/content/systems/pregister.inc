@@ -127,9 +127,8 @@ public OnPlayerConnect(playerid)
 		return 1;
 	}
 
-	
+	SetPlayerColor(playerid, HCOL_TMPGRAY);
 	ValidateUppercase(playerid, last_name, NamePosition);
-	SetPlayerColor(playerid, HCOL_WHITE);
 	PreloadAnimLibs(playerid);
 	ShowServerNameTD(playerid);
 
@@ -216,6 +215,7 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 	if(cache_num_rows() > 0){
 		new hash[64 + 1];
 		ClearChat(playerid, 100);
+		StartLoginCamera(playerid);
 		cache_get_value_name(0, "Password", hash);
 		format(PlayerData[playerid][jPass], 65, "%s", hash);
 		
