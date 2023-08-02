@@ -157,6 +157,12 @@ stock ConvertDiscordText(string[])
     return true;
 }
 
+public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
+{
+    printf("ERROR SQL: Query: %s, callback: %s, error: %s",query,callback,error);
+    return 1;
+}
+
 //https://sampforum.blast.hk/showthread.php?tid=80850&pid=307442#pid307442
 forward ProxDetector(Float:radi, playerid, str[], col1, col2, col3, col4, col5); public ProxDetector(Float:radi, playerid, str[],col1,col2,col3,col4,col5)
 {
