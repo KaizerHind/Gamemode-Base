@@ -17,7 +17,7 @@
 #include    "content/deamx"
 
 /* ==# Vars Modules #== */
-#include	"content/server/dDialogs"
+//#include	"content/server/empty" | Disabled 'dDialogs'. (empty)
 #include	"content/server/cColors"
 #include	"content/server/mVars_"
 
