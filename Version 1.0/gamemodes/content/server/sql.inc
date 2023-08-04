@@ -1,11 +1,11 @@
 forward PlayerIngreso(playerid); public PlayerIngreso(playerid) 
 {
-    cache_get_value_int(0, "Ropa", PlayerData[playerid][jRopa]);
-    cache_get_value_int(0, "Sexo", PlayerData[playerid][jSexo]);
+    cache_get_value_int(0, "Skin", PlayerData[playerid][jRopa]);
+    cache_get_value_int(0, "Gender", PlayerData[playerid][jSexo]);
     cache_get_value_int(0, "Score", PlayerData[playerid][jScore]);
-    cache_get_value_float(0, "Salud", PlayerData[playerid][jHealth]);
-    cache_get_value_float(0, "Armadura", PlayerData[playerid][jArmour]);
-    cache_get_value_name(0, "Country", PlayerData[playerid][jCountry]);
+    cache_get_value_float(0, "Health", PlayerData[playerid][jHealth]);
+    cache_get_value_float(0, "Armour", PlayerData[playerid][jArmour]);
+    cache_get_value_name(0, "Country", PlayerData[playerid][jCountry], 64);
 
     SetPlayerScore(playerid, PlayerData[playerid][jScore]);
     SetPlayerHealth(playerid, PlayerData[playerid][jHealth]);
@@ -20,9 +20,12 @@ forward AccountLoaded(playerid); public AccountLoaded(playerid){
     TogglePlayerSpectating(playerid, false);
 
     format(PlayerData[playerid][jName], 25, "%s", PlayerName(playerid));
-	SetSpawnInfo(playerid, 0, PlayerData[playerid][jRopa], 1397.3853, -1577.9474, 14.4706, 0.0, 0, 0, 0, 0, 0, 0);
+	
+    SetSpawnInfo(playerid, 0, PlayerData[playerid][jRopa], 1397.3853, -1577.9474, 14.4706, 0.0, 0, 0, 0, 0, 0, 0);
+    StopAudioStreamForPlayer(playerid);
     SetPlayerColor(playerid, HCOL_WHITE);
-	SpawnPlayer(playerid);
+	
+    SpawnPlayer(playerid);
     return 1;
 }
 
@@ -36,8 +39,9 @@ forward FinishedIntro(playerid); public FinishedIntro(playerid)
 	SetPVarInt(playerid, "Logueado", 1);
 
 	SetPlayerScore(playerid, PlayerData[playerid][jScore] = 5);
-
 	SetSpawnInfo(playerid, 0, PlayerData[playerid][jRopa], 1397.3853, -1577.9474, 14.4706, 0.0, 0, 0, 0, 0, 0, 0);
+    
+    StopAudioStreamForPlayer(playerid);
     SetPlayerColor(playerid, HCOL_WHITE);
 	SpawnPlayer(playerid);
 	
@@ -52,13 +56,15 @@ stock SavePlayer(playerid) {
     GetPlayerHealth(playerid, PlayerData[playerid][jHealth]);
     GetPlayerArmour(playerid, PlayerData[playerid][jArmour]);
     GetPlayerScore(PlayerData[playerid][jScore]);
+    ReturnDate();
 
-    mysql_format(DB, global_str, sizeof(global_str), "UPDATE users SET Score = '%d', Salud = '%f', Armadura = '%f', Ropa = %d, Country = '%e' WHERE ID = '%d' LIMIT 1",
+    mysql_format(DB, global_str, sizeof(global_str), "UPDATE users SET Score = '%d', Health = '%f', Armour = '%f', Skin = '%d', Country = '%e', Acc_Last_Session = '%s'  WHERE ID = '%d' LIMIT 1",
         PlayerData[playerid][jScore],
         PlayerData[playerid][jHealth],
         PlayerData[playerid][jArmour],
         GetPlayerSkin(playerid),
         PlayerData[playerid][jCountry],
+        ReturnDate(),
         PlayerData[playerid][ID]
     );
     mysql_tquery(DB, global_str);

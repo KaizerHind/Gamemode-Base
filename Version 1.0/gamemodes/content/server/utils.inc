@@ -23,28 +23,29 @@ forward DialogKick(playerid); public DialogKick(playerid) return Kick(playerid);
 
 stock StartLoginCamera(playerid)
 {
-  new RandMovement;
-  RandMovement = random(3);
-  TogglePlayerSpectating(playerid, true);
-  switch(RandMovement)
-  {
-	case 0:
-  	{
-		InterpolateCameraPos(playerid, 1821.641113, -1920.931152, 13.405388, 1821.379272, -1665.030517, 14.498521, 45000);
-		InterpolateCameraLookAt(playerid, 1821.657226, -1915.932739, 13.531604, 1821.308349, -1660.035522, 14.711844, 22500);
-	}
-	case 1:
-  	{
-		InterpolateCameraPos(playerid, 1565.513305, -1733.132446, 14.356844, 1578.185058, -1729.579711, 71.607223, 45000);
-		InterpolateCameraLookAt(playerid, 1561.613769, -1736.157714, 15.157655, 1574.273071, -1732.688232, 71.423744, 45000);
-	}
-	case 2:
-  	{
-		InterpolateCameraPos(playerid, 1308.438964, -1403.570190, 14.576297, 990.262329, -1416.168090, 56.591018, 45000);
-		InterpolateCameraLookAt(playerid, 1303.439819, -1403.628540, 14.645874, 993.421386, -1413.238647, 54.053543, 22500);
-	}
-  }
-  return 1;
+    new RandMovement;
+    RandMovement = random(3);
+    TogglePlayerSpectating(playerid, true);
+    PlayAudioStreamForPlayer(playerid, SERVER_INTROMP3, 0.0, 0.0, 0.0, 0.0, false);
+    switch(RandMovement)
+    {
+        case 0:
+        {
+            InterpolateCameraPos(playerid, 1821.641113, -1920.931152, 13.405388, 1821.379272, -1665.030517, 14.498521, 45000);
+            InterpolateCameraLookAt(playerid, 1821.657226, -1915.932739, 13.531604, 1821.308349, -1660.035522, 14.711844, 22500);
+        }
+        case 1:
+        {
+            InterpolateCameraPos(playerid, 1565.513305, -1733.132446, 14.356844, 1578.185058, -1729.579711, 71.607223, 45000);
+            InterpolateCameraLookAt(playerid, 1561.613769, -1736.157714, 15.157655, 1574.273071, -1732.688232, 71.423744, 45000);
+        }
+        case 2:
+        {
+            InterpolateCameraPos(playerid, 1308.438964, -1403.570190, 14.576297, 990.262329, -1416.168090, 56.591018, 45000);
+            InterpolateCameraLookAt(playerid, 1303.439819, -1403.628540, 14.645874, 993.421386, -1413.238647, 54.053543, 22500);
+        }
+    }
+    return 1;
 }
 
 forward PreloadAnimLibs(playerid);
@@ -157,9 +158,21 @@ stock ConvertDiscordText(string[])
     return true;
 }
 
+ReturnDate()
+{
+	static date[36];
+
+	getdate(date[2], date[1], date[0]);
+	gettime(date[3], date[4], date[5]);
+
+	format(date, sizeof(date), "Fecha: %02d-%02d-%d / Hora: %02d:%02d", date[0], date[1], date[2], date[3], date[4]);
+	return date;
+}
+
+
 public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
 {
-    printf("ERROR SQL: Query: %s, callback: %s, error: %s",query,callback,error);
+    printf("Se ha encontrado el siguiente error en MySql:\nERROR SQL: Query: %s, callback: %s, error: %s",query,callback,error);
     return 1;
 }
 

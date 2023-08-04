@@ -34,9 +34,9 @@ new
 
 /* Strings and others Vars */
 new 
-    global_str[1024], glb_str2[1024], gbl_log[500],  //-= String Messages =-
-    Text:tdError[3], Text:TD_SERVERNAME[2],         //-=  Vars - Introduccion =-
-    DCC_Channel:ChannelBot,                        //-= Discord Channel Var =-
+    global_str[1024], glb_str2[1024], gbl_log[500], DiscordLog[500],  //-= String Messages =-
+    Text:tdError[3], Text:TD_SERVERNAME[2],                          //-=  Vars - Introduccion =-
+    DCC_Channel:ChannelBot,                                         //-= Discord Channel Var =-
     RolTestErrors[MAX_PLAYERS];
 
 /*# Anim SAMP Library#*/
@@ -94,6 +94,7 @@ new const txtCountry[][] = {
 #define SERVER_RCON         ""
 #define SERVER_GRAVITY      "0.008"
 
+#define SERVER_INTROMP3     "insert-url.mp3" //Url de musica que sonara al entrar/loguear.
 #define SERVER_DISCORD      "https://discord.gg/Insert-ID-Url"
 #define SERVER_CONTACT      ""
 
