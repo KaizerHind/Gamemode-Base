@@ -13,19 +13,22 @@ enum jInfo
     jName[25],
     jPass[64 + 1],
     TempHash[64 + 1],
-    jRopa,
-    jSexo,
-    jEdad,
+    jSkin,
+    jGender,
+    jAge,
     jScore,
     Float:jHealth,
     Float:jArmour,
-    jCountry[64]
+    jCountry[64],
+ 	Float:jPosX,
+ 	Float:jPosY,
+ 	Float:jPosZ,
+    Float:jPosA
 }
 
 new PlayerData[MAX_PLAYERS][jInfo];
 
 /* -= Mysql Vars =- */
-
 new	
 	MySQL:DB,
 	IndividualName[MAX_PLAYERS][MAX_PLAYER_NAME],
@@ -33,11 +36,9 @@ new
     ;
 
 /* Strings and others Vars */
-new 
-    global_str[1024], glb_str2[1024], gbl_log[500], DiscordLog[500],  //-= String Messages =-
-    Text:tdError[3], Text:TD_SERVERNAME[2],                          //-=  Vars - Introduccion =-
-    DCC_Channel:ChannelBot,                                         //-= Discord Channel Var =-
-    RolTestErrors[MAX_PLAYERS];
+new global_str[1024], glb_str2[1024], gbl_log[500], DiscordLog[500];  //-= String Messages =-
+new Text:tdError[3], Text:TD_SERVERNAME[2];                          //-=  Vars - WindowsScreen and Error Command =-
+new DCC_Channel:ChannelBot, RolTestErrors[MAX_PLAYERS];             //-= Discord Channel And RolTest Var =-
 
 /*# Anim SAMP Library#*/
 new const AnimLibs[][] = {
