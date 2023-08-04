@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-07-2023 a las 09:18:55
+-- Tiempo de generación: 04-08-2023 a las 02:15:42
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.2.34
 
@@ -31,13 +31,15 @@ CREATE TABLE `users` (
   `ID` int(11) NOT NULL,
   `Name` varchar(25) NOT NULL,
   `Password` varchar(65) NOT NULL,
-  `Ropa` int(3) NOT NULL,
-  `Sexo` int(11) NOT NULL,
-  `Edad` int(2) NOT NULL,
+  `Skin` int(3) NOT NULL,
+  `Gender` int(11) NOT NULL,
+  `Age` int(2) NOT NULL,
   `Score` int(4) NOT NULL,
-  `Salud` float NOT NULL DEFAULT 100,
-  `Armadura` float NOT NULL DEFAULT 0,
-  `Country` varchar(64) NOT NULL
+  `Health` float NOT NULL DEFAULT 100,
+  `Armour` float NOT NULL DEFAULT 0,
+  `Country` varchar(100) NOT NULL,
+  `Account_Register` varchar(40) CHARACTER SET latin1 DEFAULT '0',
+  `Acc_Last_Session` varchar(40) CHARACTER SET latin1 DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
