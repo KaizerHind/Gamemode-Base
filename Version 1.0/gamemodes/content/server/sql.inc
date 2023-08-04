@@ -1,7 +1,7 @@
 forward PlayerIngreso(playerid); public PlayerIngreso(playerid) 
 {
-    cache_get_value_int(0, "Skin", PlayerData[playerid][jRopa]);
-    cache_get_value_int(0, "Gender", PlayerData[playerid][jSexo]);
+    cache_get_value_int(0, "Skin", PlayerData[playerid][jSkin]);
+    cache_get_value_int(0, "Gender", PlayerData[playerid][jGender]);
     cache_get_value_int(0, "Score", PlayerData[playerid][jScore]);
     cache_get_value_float(0, "Health", PlayerData[playerid][jHealth]);
     cache_get_value_float(0, "Armour", PlayerData[playerid][jArmour]);
@@ -10,6 +10,8 @@ forward PlayerIngreso(playerid); public PlayerIngreso(playerid)
     SetPlayerScore(playerid, PlayerData[playerid][jScore]);
     SetPlayerHealth(playerid, PlayerData[playerid][jHealth]);
     SetPlayerArmour(playerid, PlayerData[playerid][jArmour]);
+    SetPlayerPos(playerid, PlayerData[playerid][jPosX], PlayerData[playerid][jPosY], PlayerData[playerid][jPosZ]);
+    SetPlayerFacingAngle(playerid, PlayerData[playerid][jPosA]);
 
     SetPVarInt(playerid, "Logueado", 1);
     AccountLoaded(playerid);
@@ -21,7 +23,7 @@ forward AccountLoaded(playerid); public AccountLoaded(playerid){
 
     format(PlayerData[playerid][jName], 25, "%s", PlayerName(playerid));
 	
-    SetSpawnInfo(playerid, 0, PlayerData[playerid][jRopa], 1397.3853, -1577.9474, 14.4706, 0.0, 0, 0, 0, 0, 0, 0);
+    SetSpawnInfo(playerid, 0, PlayerData[playerid][jSkin], PlayerData[playerid][jPosX], PlayerData[playerid][jPosY], PlayerData[playerid][jPosZ], PlayerData[playerid][jPosA], 0, 0, 0, 0, 0, 0);
     StopAudioStreamForPlayer(playerid);
     SetPlayerColor(playerid, HCOL_WHITE);
 	
@@ -39,10 +41,13 @@ forward FinishedIntro(playerid); public FinishedIntro(playerid)
 	SetPVarInt(playerid, "Logueado", 1);
 
 	SetPlayerScore(playerid, PlayerData[playerid][jScore] = 5);
-	SetSpawnInfo(playerid, 0, PlayerData[playerid][jRopa], 1397.3853, -1577.9474, 14.4706, 0.0, 0, 0, 0, 0, 0, 0);
+    
+	SetPlayerSkin(playerid, PlayerData[playerid][jSkin]);
+	SetSpawnInfo(playerid, 0, PlayerData[playerid][jSkin], 1397.3853, -1577.9474, 14.4706, 0.0, 0, 0, 0, 0, 0, 0);
     
     StopAudioStreamForPlayer(playerid);
     SetPlayerColor(playerid, HCOL_WHITE);
+
 	SpawnPlayer(playerid);
 	
 	/* Discord: discord.inc */
@@ -53,18 +58,26 @@ forward FinishedIntro(playerid); public FinishedIntro(playerid)
 }
 
 stock SavePlayer(playerid) {
+
     GetPlayerHealth(playerid, PlayerData[playerid][jHealth]);
     GetPlayerArmour(playerid, PlayerData[playerid][jArmour]);
     GetPlayerScore(PlayerData[playerid][jScore]);
+    GetPlayerPos(playerid, PlayerData[playerid][jPosX], PlayerData[playerid][jPosY], PlayerData[playerid][jPosZ]);
+    GetPlayerFacingAngle(playerid, PlayerData[playerid][jPosA]);
+
     ReturnDate();
 
-    mysql_format(DB, global_str, sizeof(global_str), "UPDATE users SET Score = '%d', Health = '%f', Armour = '%f', Skin = '%d', Country = '%e', Acc_Last_Session = '%s'  WHERE ID = '%d' LIMIT 1",
+    mysql_format(DB, global_str, sizeof(global_str), "UPDATE users SET Score = '%d', Health = '%f', Armour = '%f', Skin = '%d', Country = '%e', Acc_Last_Session = '%s', PosX = %f, PosY = %f, PosZ = %f, PosA = %f  WHERE ID = '%d' LIMIT 1",
         PlayerData[playerid][jScore],
         PlayerData[playerid][jHealth],
         PlayerData[playerid][jArmour],
         GetPlayerSkin(playerid),
         PlayerData[playerid][jCountry],
         ReturnDate(),
+        PlayerData[playerid][jPosX],
+        PlayerData[playerid][jPosY],
+        PlayerData[playerid][jPosZ],
+        PlayerData[playerid][jPosA],
         PlayerData[playerid][ID]
     );
     mysql_tquery(DB, global_str);

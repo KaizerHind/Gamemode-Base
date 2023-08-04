@@ -98,6 +98,7 @@ ValidateUppercase(playerid, lastname[], nPosition)
 	return true;
 }
 
+
 stock alm(string[],string2[]){strmid(string,string2,0,strlen(string2),strlen(string2)+1); return 1;}
 
 stock InvalidCharacterName(str[])
@@ -165,14 +166,14 @@ ReturnDate()
 	getdate(date[2], date[1], date[0]);
 	gettime(date[3], date[4], date[5]);
 
-	format(date, sizeof(date), "Fecha: %02d-%02d-%d / Hora: %02d:%02d", date[0], date[1], date[2], date[3], date[4]);
+	format(date, sizeof(date), ""COL_WHITE"Fecha: "COL_ORANGE"%02d-%02d-%d "COL_WHITE"/ Hora: "COL_ORANGE"%02d:%02d", date[0], date[1], date[2], date[3], date[4]);
 	return date;
 }
 
 
 public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
 {
-    printf("Se ha encontrado el siguiente error en MySql:\nERROR SQL: Query: %s, callback: %s, error: %s",query,callback,error);
+    printf("ERROR SQL: Query: %s, callback: %s, error: %s",query,callback,error);
     return 1;
 }
 
