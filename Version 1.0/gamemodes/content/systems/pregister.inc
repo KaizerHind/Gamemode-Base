@@ -226,8 +226,8 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 		PlayerName_(playerid),
 		ReturnDate());
 
-		ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", ""COL_WHITE"Salir");
-	}else{
+		Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", ""COL_WHITE"Salir");
+		}else{
 
 		ClearChat(playerid, 100);
 		StartLoginCamera(playerid);
@@ -238,139 +238,127 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 		
 		new str_wlc[500];
 		format(str_wlc, sizeof(str_wlc), ""COL_WHITE"Que tal "COL_SERVER"%s"COL_WHITE".\n\nAntes que nada, gracias por elegirnos como Comunidad.\nA Continuacion realizaras un Examen de Rol con un minimo de  6 preguntas las\ncuales deberas responder todas de manera correcta.\n\nEn caso de fallar 5 de las 6 preguntas, deberas realizar el examen nuevamente.\n\n¡Buena suerte en el Examen!", PlayerTemp(playerid));
-		ShowPlayerDialog(playerid, dExamen, DIALOG_STYLE_MSGBOX, mHeader, str_wlc, ""COL_WHITE"Aceptar", "");
+		Dialog_Show(playerid, dExamen, DIALOG_STYLE_MSGBOX, mHeader, str_wlc, ""COL_WHITE"Aceptar", "");
 	}
 	return 1;
 }
 
-public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+Dialog:dLogin(playerid, response, listitem, inputtext[])
+{
+	if(response)
+	{
+		new megahash[64 + 1];
+		SHA256_PassHash(inputtext, "123h1h23hh", megahash, 64);
+		if(strcmp(PlayerData[playerid][jPass], megahash, false) == 0)
+		{
+			mysql_format(DB, global_str, sizeof global_str, "SELECT * FROM users WHERE Name = '%e'  LIMIT 1", PlayerName(playerid));
+			mysql_tquery(DB, global_str, "PlayerIngreso", "i", playerid);
+			SendClientMessage(playerid, -1, "Bienvenido de nuevo, te echabamos de menos.");
+			
+			/* Discord: discord.inc */
+			format(DiscordLog, sizeof(DiscordLog), "(( `%s` se ha conectado y spawneado en el Servidor.\nSu ultima conexion fue el: `%s` ))",  
+			PlayerName_(playerid),
+			ReturnDate());
+
+			ConvertDiscordText(DiscordLog);
+			SendJoinEmbedMessage(DCHANNEL_LOG, DiscordLog);
+		}
+		else
+		{
+			Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, mError,  ""COL_WHITE"Entrar", ""COL_WHITE"Salir");
+		}
+	}
+}
+
+Dialog:dExamen(playerid, response, listitem, inputtext[])
+{
+	InitPlayerRoleTest(playerid);
+}
+
+Dialog:dRegistro(playerid, response, listitem, inputtext[])
+{
+	if(!response)
+	{
+		SHA256_PassHash(inputtext, "123h1h23hh", PlayerData[playerid][TempHash], 64);
+		Dialog_Show(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"A Continuacion indicanos tu genero.\nDependiendo de tu eleccion, se te sera seteada una skin default.", "Masculino", "Femenino");
+	}
+}
+
+Dialog:dGender(playerid, response, listitem, inputtext[])
+{
+	if(response)
+	{
+		PlayerData[playerid][jGender] = 1;
+		PlayerData[playerid][jSkin] = 46;
+	}
+	else if(!response)
+	{
+		PlayerData[playerid][jGender] = 2;
+		PlayerData[playerid][jSkin] = 12;
+	}
+	new strAge[120+1];
+	format(strAge, sizeof(strAge), ""COL_WHITE"Muy bien %s!\nAhora cuentanos. ¿Que edad tienes?", PlayerTemp(playerid), strAge);
+	Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, mHeader, strAge, ">>", "");
+}
+
+Dialog:dEdad(playerid, response, listitem, inputtext[])
 {
 	new VarAge = strval(inputtext);
 
-	switch(dialogid){
-		case dExamen:{InitPlayerRoleTest(playerid);}
-		case dLogin:
-		{
-			if(response)
-			{
-				new megahash[64 + 1];
-				SHA256_PassHash(inputtext, "123h1h23hh", megahash, 64);
-				if(strcmp(PlayerData[playerid][jPass], megahash, false) == 0)
-				{
-					mysql_format(DB, global_str, sizeof global_str, "SELECT * FROM users WHERE Name = '%e'  LIMIT 1", PlayerName(playerid));
-					mysql_tquery(DB, global_str, "PlayerIngreso", "i", playerid);
-					SendClientMessage(playerid, -1, "Bienvenido de nuevo, te echabamos de menos.");
-					
-					/* Discord: discord.inc */
-					format(DiscordLog, sizeof(DiscordLog), "(( `%s` se ha conectado y spawneado en el Servidor.\nSu ultima conexion fue el: `%s` ))",  
-					PlayerName_(playerid),
-					ReturnDate());
+	if(!response)
+	format(global_str, sizeof(global_str), ""COL_SERVER"%s"COL_WHITE"; Solo puedes ingresar "COL_YELLOW"valores numericos"COL_WHITE".\nLa edad minima es de "COL_YELLOW"<13> "COL_WHITE"y la maxima de "COL_YELLOW"<50>"COL_WHITE".\n\nPor favor ingresa una "COL_YELLOW"Edad Valida"COL_WHITE".\n¿Qué edad tienes? Cuentanos.", PlayerTemp(playerid), global_str);
+	if(!IsNumeric(inputtext)) return Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
+	if(strval(inputtext) < 13) return Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
+	if(VarAge < 13 || VarAge > 50) return Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
 
-					ConvertDiscordText(DiscordLog);
-					SendJoinEmbedMessage(DCHANNEL_LOG, DiscordLog);
-				}
-				else
-				{
-					ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, mError,  ""COL_WHITE"Entrar", ""COL_WHITE"Salir");
-				}
-			}
-			else Kick(playerid);
-		}
-        case dRegistro:{
-            if(!response) return Kick(playerid);
-            {
-				SHA256_PassHash(inputtext, "123h1h23hh", PlayerData[playerid][TempHash], 64);
-                ShowPlayerDialog(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"A Continuacion indicanos tu genero.\nDependiendo de tu eleccion, se te sera seteada una skin default.", "Masculino", "Femenino");
-            }
-        }
-		case dGender: /*Hombre: 1 | Mujer: 2*/
-		{
-		    if(response)
-			{
-				PlayerData[playerid][jSexo] = 1;
-				PlayerData[playerid][jRopa] = 46;
-			}
-		    else if(!response)
-		    {
-				PlayerData[playerid][jSexo] = 2;
-				PlayerData[playerid][jRopa] = 12;
-			}
-			new strAge[120+1];
-			format(strAge, sizeof(strAge), ""COL_WHITE"Muy bien %s!\nAhora cuentanos. ¿Que edad tienes?", PlayerTemp(playerid), strAge);
-			ShowPlayerDialog(playerid, dEdad, DIALOG_STYLE_INPUT, mHeader, strAge, ">>", "");
-		}
-		case dEdad:
-		{
-			if(!response) return Kick(playerid);
-			format(global_str, sizeof(global_str), ""COL_SERVER"%s"COL_WHITE"; Solo puedes ingresar "COL_YELLOW"valores numericos"COL_WHITE".\nLa edad minima es de "COL_YELLOW"<13> "COL_WHITE"y la maxima de "COL_YELLOW"<50>"COL_WHITE".\n\nPor favor ingresa una "COL_YELLOW"Edad Valida"COL_WHITE".\n¿Qué edad tienes? Cuentanos.", PlayerTemp(playerid), global_str);
-		    if(!IsNumeric(inputtext)) return ShowPlayerDialog(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
-			if(strval(inputtext) < 13) return ShowPlayerDialog(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
-			if(VarAge < 13 || VarAge > 50) return ShowPlayerDialog(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
-
-			PlayerData[playerid][jEdad] = VarAge;
-			format(global_str, sizeof(global_str), ""COL_WHITE"Excelente "COL_SERVER"%s"COL_WHITE"; Ya nos haz indicado tu Edad.\nAhora dinos, a que lugar de San Andreas pertenece\ntu personaje.", PlayerTemp(playerid));
-			ShowPlayerDialog(playerid, dCountry, DIALOG_STYLE_MSGBOX, mHeader, global_str, ">>", "");
-			
-		}
-		case dCountry:
-		{
-			if(!response) return Kick(playerid);
-			format(global_str, sizeof(global_str), "Los Santos\nBlueBerry\nMontgomery\nPalomino Creek\nLas Venturas\nFort Cartson\nBayside\nSan Fierro\nAngel Pine", global_str);
-			ShowPlayerDialog(playerid, dSelCountry, DIALOG_STYLE_LIST, "Elige una ciudad.", global_str, ">>", "");
-		}
-        case dSelCountry: 
-        {
-			if(!response) return Kick(playerid);
-			format(PlayerData[playerid][jCountry], 64, "%s", txtCountry[listitem]);
-			ShowPlayerDialog(playerid, dFinish, DIALOG_STYLE_MSGBOX, mHeader, ""COL_GREEN"Felicidades; Has culminado tu Registro; "COL_WHITE"Recuerda cumplir las\nnormas o podrias ser sancionado.", "Aceptar", "");
-        }
-		case dFinish:
-		{
-			if(response)
-			{
-				mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Skin, Gender, Age, Country, Account_Register, Acc_Last_Session) VALUES ('%e', '%e', '%i', '%i', '%i', '%e', '%s', '%s')",
-				PlayerName(playerid),
-				PlayerData[playerid][TempHash],
-				PlayerData[playerid][jRopa],
-				PlayerData[playerid][jSexo],
-				PlayerData[playerid][jEdad],
-				PlayerData[playerid][jCountry],
-				ReturnDate(), ReturnDate());
-
-				PlayerData[playerid][jScore] = 5;
-				PlayerData[playerid][jHealth] = 100;
-				PlayerData[playerid][jArmour] = 0;
-
-				mysql_tquery(DB, global_str, "LoadAccountID", "i", playerid);
-
-				FinishedIntro(playerid);
-				printf("- %s Se ha registrado por Primera vez en el Servidor.", PlayerName(playerid));
-			}
-			else
-			{
-				SendClientMessage(playerid, HCOL_SERVER, "Cancelaste el Dialogo que tenias abierto, por lo tanto se te ha expulsado del Servidor.");
-				Kick(playerid);
-			}
-		}
-	}
-	/* ############### DON TOUCH ############### */
-	#if defined pregister_OnDialogResponse
-		return pregister_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]);
-	#else
-		return 1;
-	#endif
+	PlayerData[playerid][jAge] = VarAge;
+	format(global_str, sizeof(global_str), ""COL_WHITE"Excelente "COL_SERVER"%s"COL_WHITE"; Ya nos haz indicado tu Edad.\nAhora dinos, a que lugar de San Andreas pertenece\ntu personaje.", PlayerTemp(playerid));
+	Dialog_Show(playerid, dCountry, DIALOG_STYLE_MSGBOX, mHeader, global_str, ">>", "");
+	return 1;
 }
 
-#if defined _ALS_OnDialogResponse
-	#undef OnDialogResponse
-#else
-	#define _ALS_OnDialogResponse
-#endif
+Dialog:dCountry(playerid, response, listitem, inputtext[])
+{
+	if(!response)
+	format(global_str, sizeof(global_str), "Los Santos\nBlueBerry\nMontgomery\nPalomino Creek\nLas Venturas\nFort Cartson\nBayside\nSan Fierro\nAngel Pine", global_str);
+	Dialog_Show(playerid, dSelCountry, DIALOG_STYLE_LIST, "Elige una ciudad.", global_str, ">>", "");
+}
 
-#define OnDialogResponse pregister_OnDialogResponse
-#if defined pregister_OnDialogResponse
-	forward pregister_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]);
-#endif
+Dialog:dSelCountry(playerid, response, listitem, inputtext[])
+{
+	if(!response)
+	format(PlayerData[playerid][jCountry], 64, "%s", txtCountry[listitem]);
+	Dialog_Show(playerid, dFinish, DIALOG_STYLE_MSGBOX, mHeader, ""COL_GREEN"Felicidades; Has culminado tu Registro; "COL_WHITE"Recuerda cumplir las\nnormas o podrias ser sancionado.", "Aceptar", "");
+}
+
+Dialog:dFinish(playerid, response, listitem, inputtext[])
+{
+	if(response)
+	{
+		mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Skin, Gender, Age, Country, Account_Register, Acc_Last_Session) VALUES ('%e', '%e', '%i', '%i', '%i', '%e', '%s', '%s')",
+		PlayerName(playerid),
+		PlayerData[playerid][TempHash],
+		PlayerData[playerid][jSkin],
+		PlayerData[playerid][jGender],
+		PlayerData[playerid][jAge],
+		PlayerData[playerid][jCountry],
+		ReturnDate(), ReturnDate()
+		);
+
+		PlayerData[playerid][jScore] = 5;
+		PlayerData[playerid][jHealth] = 100;
+		PlayerData[playerid][jArmour] = 0;
+
+		mysql_tquery(DB, global_str, "LoadAccountID", "i", playerid);
+
+		FinishedIntro(playerid);
+		printf("- %s Se ha registrado por Primera vez en el Servidor.", PlayerName(playerid));
+	}
+	else
+	{
+		SendClientMessage(playerid, HCOL_SERVER, "Cancelaste el Dialogo que tenias abierto, por lo tanto se te ha expulsado del Servidor.");
+	}
+}
 
 public OnPlayerClickTextDraw(playerid, Text:clickedid)
 {

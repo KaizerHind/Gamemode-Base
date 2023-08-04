@@ -93,7 +93,7 @@ Question(playerid, question, error)
                 SendRegisterEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
                 format(glb_str2, sizeof(glb_str2), ""COL_WHITE"Bienvenido a "COL_SERVER""SERVER_PROJECT" "COL_SERVER"%s"COL_WHITE"! Felicidades por aprobar el Examen de Rol.\nEsperamos te diviertas dentro de la Comunidad, no olvides respetar las Reglas\ny jugar de manera sana, cualquier falta puede conllevar a una sancion.\n\nSin nada mas que decir; Procedamos a tomar tus datos.\n\nIngresa una contraseña para registrar tu cuenta.", PlayerName(playerid));
-                ShowPlayerDialog(playerid, dRegistro, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", "");
+                Dialog_Show(playerid, dRegistro, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", "");
             }
             else
             {
