@@ -8,6 +8,9 @@
 #include    "streamer"
 #include    "sscanf2"
 #include    "zcmd"
+#define     DEBUG
+#include    "nex-ac_es.lang"
+#include    "nex-ac"
 
 /* ==# Mini Funcs Modules [not very important] #== */
 #include    "content/includes/discordconnector"
@@ -24,9 +27,12 @@
 #include    "content/systems/discord"
 #include    "content/systems/roltest"
 
-/* ==# Other Funcs #== */
+/* ==# Other Funcs I #== */
 #include	"content/designs/textdraws"
 #include	"content/designs/maps"
+/* ==# Commands #== */
 #include    "content/cmds/p_commands"
+
+/* ==# Other Funcs II #== */
 #include	"content/server/sql"
 #include	"content/server/utils"
