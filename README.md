@@ -28,14 +28,15 @@
 
 - [MySQL-r41](https://github.com/pBlueG/SA-MP-MySQL)
 
-- [streamer](https://github.com/samp-incognito/samp-streamer-plugin)
+- [streamer](https://github.com/samp-incognito/samp-streamer-plugin/releases/tag/v2.9.5)
 
-- [sscaf](https://github.com/maddinat0r/sscanf)
+- [sscanf](https://github.com/maddinat0r/sscanf)
 
 - [YSI-Includes(v5.06.1932)](https://github.com/pawn-lang/YSI-Includes/releases/tag/v5.06.1932)
 
 - [Discord Connector](https://github.com/maddinat0r/samp-discord-connector)
 
+- [Anticheat Nex-AC](https://github.com/NexiusTailer/Nex-AC/archive/refs/heads/master.zip)
 ---
 
 # • **Español:**
