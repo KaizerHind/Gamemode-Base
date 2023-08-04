@@ -83,14 +83,14 @@ Question(playerid, question, error)
             if (RolTestErrors[playerid] == 6)
             {
               /* Discord: discord.inc */
-                format(gbl_log, sizeof(gbl_log), "(( `%s` ha aprobado el Test de Rol. ))",  PlayerName(playerid));
-                ConvertDiscordText(gbl_log);
-                SendRolTestEmbedMessage(DCHANNEL_LOG, gbl_log);
+                format(DiscordLog, sizeof(DiscordLog), "(( `%s` ha aprobado el Test de Rol. ))",  PlayerName(playerid));
+                ConvertDiscordText(DiscordLog);
+                SendRolTestEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
                 /* Discord: discord.inc */
-                format(glb_str2, sizeof(glb_str2), "(( `%s` comenzara a registrar su Cuenta en el Servidor. **[Part 2/2]**))", PlayerName(playerid));
-                ConvertDiscordText(glb_str2),
-                SendRegisterEmbedMessage(DCHANNEL_LOG, glb_str2);
+                format(DiscordLog, sizeof(DiscordLog), "(( `%s` comenzara a registrar su Cuenta en el Servidor. **[Part 2/2]**))", PlayerName(playerid));
+                ConvertDiscordText(DiscordLog),
+                SendRegisterEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
                 format(glb_str2, sizeof(glb_str2), ""COL_WHITE"Bienvenido a "COL_SERVER""SERVER_PROJECT" "COL_SERVER"%s"COL_WHITE"! Felicidades por aprobar el Examen de Rol.\nEsperamos te diviertas dentro de la Comunidad, no olvides respetar las Reglas\ny jugar de manera sana, cualquier falta puede conllevar a una sancion.\n\nSin nada mas que decir; Procedamos a tomar tus datos.\n\nIngresa una contraseña para registrar tu cuenta.", PlayerName(playerid));
                 ShowPlayerDialog(playerid, dRegistro, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", "");
@@ -101,9 +101,9 @@ Question(playerid, question, error)
                 SendClientMessage(playerid, -1, gbl_log);
 
                 /* Discord: discord.inc */
-                format(gbl_log, sizeof(gbl_log), "(( `%s` ha fallado ah realizar el Test de Rol; Comenzara de nuevo. ))\nAciertos: `%d/%d`",  PlayerName(playerid), RolTestErrors[playerid] + 0, 6);
-                ConvertDiscordText(gbl_log);
-                SendRolTestEmbedMessage(DCHANNEL_LOG, gbl_log);
+                format(DiscordLog, sizeof(DiscordLog), "(( `%s` ha fallado ah realizar el Test de Rol; Comenzara de nuevo. ))\nAciertos: `%d/%d`",  PlayerName(playerid), RolTestErrors[playerid] + 0, 6);
+                ConvertDiscordText(DiscordLog);
+                SendRolTestEmbedMessage(DCHANNEL_LOG, DiscordLog);
                 return InitPlayerRoleTest(playerid);
             }
         }

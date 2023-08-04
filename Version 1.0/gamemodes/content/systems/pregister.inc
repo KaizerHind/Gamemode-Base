@@ -117,10 +117,9 @@ public OnPlayerConnect(playerid)
 		Dialog_Show(playerid, 9999, DIALOG_STYLE_MSGBOX, ""COL_SERVER""SERVER_NAME" "COL_WHITE"- ¡Oops! Al parecer hay un error.", gbl_log, "Aceptar", "");
 
 		/* Discord: discord.inc */
-		new log[250];
-		format(log, sizeof(log), "(( `%s` ha sido expulsado automaticamente por el Servidor.\n\n**Razon:** `Nombre incorrecto`. ))", PlayerTemp(playerid));
-		ConvertDiscordText(log),
-		SendGetOutEmbedMessage(DCHANNEL_LOG, log);
+		format(DiscordLog, sizeof(DiscordLog), "(( `%s` ha sido expulsado automaticamente por el Servidor.\n\n**Razon:** `Nombre incorrecto`. ))", PlayerTemp(playerid));
+		ConvertDiscordText(DiscordLog),
+		SendGetOutEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
 		SetTimerEx("ReasonKick", 1000, false, "i", playerid);
 		SetTimerEx("DialogKick", 2000, false, "i", playerid);
@@ -167,21 +166,24 @@ public OnPlayerDisconnect(playerid, reason)
 			case 0:
 			{
 				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
+				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
 			}
 			case 1:
 			{
-				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó voluntariamente. ))", PlayerName(playerid), playerid);		 
+				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
+				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
 			}
 			case 2:
 			{
 				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
+				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
 			}
 		}
 		ProxDetector(20.0, playerid, gbl_log, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE);
 		
 		/* Discord: discord.inc */
-		ConvertDiscordText(gbl_log),
-		SendGetOutEmbedMessage(DCHANNEL_LOG, gbl_log);
+		ConvertDiscordText(DiscordLog),
+		SendGetOutEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
 		SavePlayer(playerid);
 	 	return 1;
@@ -216,22 +218,26 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 		new hash[64 + 1];
 		ClearChat(playerid, 100);
 		StartLoginCamera(playerid);
+
 		cache_get_value_name(0, "Password", hash);
 		format(PlayerData[playerid][jPass], 65, "%s", hash);
-		
-		format(glb_str2, sizeof(glb_str2), "\n\n\t\t"COL_WHITE"¡Bienvenido de nuevo %s!.\n__________________________________________________________\nTu ultima conexion fue el: ><\n\nIngresa tu contraseña para entrar al Servidor.\n\nSino eres el propietario de dicha cuenta, te\ninvitamos a reloguear con otro nombre que este disponible.", PlayerName(playerid));
+
+		format(glb_str2, sizeof(glb_str2),""COL_WHITE"¡Bienvenido de nuevo "COL_SERVER"%s"COL_WHITE"; Tu ultima conexion fue el:\n"COL_SERVER"%s.\n"COL_WHITE"\n\nIngresa tu contraseña para entrar al Servidor.\n\nSino eres el propietario de dicha cuenta, te\ninvitamos a reloguear con otro nombre que este disponible.",
+		PlayerName_(playerid),
+		ReturnDate());
+
 		ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", ""COL_WHITE"Salir");
 	}else{
 
 		ClearChat(playerid, 100);
 		StartLoginCamera(playerid);
 		/* Discord: discord.inc */
-		format(gbl_log, sizeof(gbl_log), "(( `%s` ha ingresado al Servidor y comenzara a realizar el Examen de Rol. **[Part 1/3]** ))",  PlayerTemp(playerid));
-		ConvertDiscordText(gbl_log);
-		SendJoinEmbedMessage(DCHANNEL_LOG, gbl_log);
+		format(DiscordLog, sizeof(DiscordLog), "(( `%s` ha ingresado al Servidor y comenzara a realizar el Examen de Rol. **[Part 1/3]** ))",  PlayerTemp(playerid));
+		ConvertDiscordText(DiscordLog);
+		SendJoinEmbedMessage(DCHANNEL_LOG, DiscordLog);
 		
 		new str_wlc[500];
-		format(str_wlc, sizeof(str_wlc), ""COL_WHITE"Que tal "COL_SERVER"%s"COL_WHITE".\n\nAntes que nada, gracias por elegirnos como Comunidad.\nA Continuacion realizaras un Examen de Rol con un minimo de  6 preguntas las\ncuales deberas responder todas de manera correcta.\n\nEn caso de fallar 5 de las 6 preguntas, deberas realizar elexamen nuevamente.\n\n¡Buena suerte en el Examen!", PlayerTemp(playerid));
+		format(str_wlc, sizeof(str_wlc), ""COL_WHITE"Que tal "COL_SERVER"%s"COL_WHITE".\n\nAntes que nada, gracias por elegirnos como Comunidad.\nA Continuacion realizaras un Examen de Rol con un minimo de  6 preguntas las\ncuales deberas responder todas de manera correcta.\n\nEn caso de fallar 5 de las 6 preguntas, deberas realizar el examen nuevamente.\n\n¡Buena suerte en el Examen!", PlayerTemp(playerid));
 		ShowPlayerDialog(playerid, dExamen, DIALOG_STYLE_MSGBOX, mHeader, str_wlc, ""COL_WHITE"Aceptar", "");
 	}
 	return 1;
@@ -256,9 +262,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					SendClientMessage(playerid, -1, "Bienvenido de nuevo, te echabamos de menos.");
 					
 					/* Discord: discord.inc */
-					format(gbl_log, sizeof(gbl_log), "(( `%s` se ha conectado y spawneado en el Servidor.))",  PlayerName(playerid));
-					ConvertDiscordText(gbl_log);
-					SendJoinEmbedMessage(DCHANNEL_LOG, gbl_log);
+					format(DiscordLog, sizeof(DiscordLog), "(( `%s` se ha conectado y spawneado en el Servidor.\nSu ultima conexion fue el: `%s` ))",  
+					PlayerName_(playerid),
+					ReturnDate());
+
+					ConvertDiscordText(DiscordLog);
+					SendJoinEmbedMessage(DCHANNEL_LOG, DiscordLog);
 				}
 				else
 				{
@@ -274,7 +283,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 ShowPlayerDialog(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"A Continuacion indicanos tu genero.\nDependiendo de tu eleccion, se te sera seteada una skin default.", "Masculino", "Femenino");
             }
         }
-		case dGender:
+		case dGender: /*Hombre: 1 | Mujer: 2*/
 		{
 		    if(response)
 			{
@@ -319,17 +328,19 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(response)
 			{
-				mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Ropa, Sexo, Edad, Country) VALUES ('%e', '%e', '%i', '%i', '%i', '%e')",
+				mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Skin, Gender, Age, Country, Account_Register, Acc_Last_Session) VALUES ('%e', '%e', '%i', '%i', '%i', '%e', '%s', '%s')",
 				PlayerName(playerid),
 				PlayerData[playerid][TempHash],
 				PlayerData[playerid][jRopa],
 				PlayerData[playerid][jSexo],
 				PlayerData[playerid][jEdad],
-				PlayerData[playerid][jCountry]);
+				PlayerData[playerid][jCountry],
+				ReturnDate(), ReturnDate());
 
 				PlayerData[playerid][jScore] = 5;
 				PlayerData[playerid][jHealth] = 100;
 				PlayerData[playerid][jArmour] = 0;
+
 				mysql_tquery(DB, global_str, "LoadAccountID", "i", playerid);
 
 				FinishedIntro(playerid);
