@@ -8,9 +8,6 @@
 #include    "streamer"
 #include    "sscanf2"
 #include    "zcmd"
-#define     DEBUG
-#include    "nex-ac_es.lang"
-#include    "nex-ac"
 
 /* ==# Mini Funcs Modules [not very important] #== */
 #include    "content/includes/discordconnector"
@@ -23,6 +20,9 @@
 
 /* ==# Funcs Modules #== */
 #include    "content/includes/dialogs"
+#define     DEBUG
+#include    "nex-ac_es.lang"
+#include    "nex-ac"
 #include	"content/systems/pregister"
 #include    "content/systems/discord"
 #include    "content/systems/roltest"
