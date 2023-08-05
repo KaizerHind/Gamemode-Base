@@ -36,7 +36,7 @@ forward LoadAccountID(playerid); public LoadAccountID(playerid) {PlayerData[play
 forward FinishedIntro(playerid); public FinishedIntro(playerid)
 {
 	TogglePlayerSpectating(playerid, false);
-	SendClientMessage(playerid,-1,"- "COL_WHITE"!Felicidades; Bienvenido a "mHeader""COL_WHITE", disfruta tu estancia!");
+	SendClientMessage(playerid,-1,"- "COL_WHITE"!Felicidades; Bienvenido a "SERVER_NAME""COL_WHITE", disfruta tu estancia!");
 
 	SetPVarInt(playerid, "Logueado", 1);
 
@@ -51,9 +51,9 @@ forward FinishedIntro(playerid); public FinishedIntro(playerid)
 	SpawnPlayer(playerid);
 	
 	/* Discord: discord.inc */
-	format(gbl_log, sizeof(gbl_log), "(( `%s` ha culminado su Registro y ha spawneado exitosamente. **[Part 3/3]** ))",  PlayerName(playerid));
-	ConvertDiscordText(gbl_log),
-	SendRegisterEmbedMessage(DCHANNEL_LOG, gbl_log);
+	format(DiscordLog, sizeof(DiscordLog), "(( `%s` ha culminado su Registro y ha spawneado exitosamente. **[Part 3/3]** ))",  PlayerName(playerid));
+	ConvertDiscordText(DiscordLog),
+	SendRegisterEmbedMessage(DCHANNEL_LOG, DiscordLog);
 	return 1;
 }
 

@@ -1,13 +1,13 @@
 forward PlayerUnfreeze(playerid); public PlayerUnfreeze(playerid) return TogglePlayerControllable(playerid,true);
 
-stock PlayerFreeze(playerid,segundos=0)
+stock PlayerFreeze(playerid,seconds=0)
 {
-	if(!segundos) return TogglePlayerControllable(playerid,false);
+	if(!seconds) return TogglePlayerControllable(playerid,false);
 
-	else if(segundos)
+	else if(seconds)
 	{
 		TogglePlayerControllable(playerid,false);
-		SetTimerEx("PlayerUnfreeze",segundos*1000,false,"i",playerid);
+		SetTimerEx("PlayerUnfreeze",seconds*1000,false,"i",playerid);
 	}
 	return 1;
 }
@@ -26,7 +26,7 @@ stock StartLoginCamera(playerid)
     new RandMovement;
     RandMovement = random(3);
     TogglePlayerSpectating(playerid, true);
-    PlayAudioStreamForPlayer(playerid, SERVER_INTROMP3, 0.0, 0.0, 0.0, 0.0, false);
+    PlayAudioStreamForPlayer(playerid, "https://cdn.discordapp.com/attachments/1070645473481859162/1135263686982893740/Melodic_Instrumental_ROCK_Metal_Arrangements_93.mp3", 0.0, 0.0, 0.0, 0.0, false);
     switch(RandMovement)
     {
         case 0:
@@ -166,7 +166,7 @@ ReturnDate()
 	getdate(date[2], date[1], date[0]);
 	gettime(date[3], date[4], date[5]);
 
-	format(date, sizeof(date), ""COL_WHITE"Fecha: "COL_ORANGE"%02d-%02d-%d "COL_WHITE"/ Hora: "COL_ORANGE"%02d:%02d", date[0], date[1], date[2], date[3], date[4]);
+	format(date, sizeof(date), "%02d-%02d-%d / %02d:%02d", date[0], date[1], date[2], date[3], date[4]);
 	return date;
 }
 

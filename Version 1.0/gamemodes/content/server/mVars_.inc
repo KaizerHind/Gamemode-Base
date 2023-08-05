@@ -19,6 +19,7 @@ enum jInfo
     jScore,
     Float:jHealth,
     Float:jArmour,
+    jHasDied,
     jCountry[64],
  	Float:jPosX,
  	Float:jPosY,
@@ -29,16 +30,24 @@ enum jInfo
 new PlayerData[MAX_PLAYERS][jInfo];
 
 /* -= Mysql Vars =- */
+
 new	
 	MySQL:DB,
 	IndividualName[MAX_PLAYERS][MAX_PLAYER_NAME],
 	IndividualPlayerName[MAX_PLAYERS][MAX_PLAYER_NAME]
     ;
 
-/* Strings and others Vars */
-new global_str[1024], glb_str2[1024], gbl_log[500], DiscordLog[500];  //-= String Messages =-
-new Text:tdError[3], Text:TD_SERVERNAME[2];                          //-=  Vars - WindowsScreen and Error Command =-
-new DCC_Channel:ChannelBot, RolTestErrors[MAX_PLAYERS];             //-= Discord Channel And RolTest Var =-
+//-= String Messages =-
+new 
+    st_InvalidName[400], st_Disconnect[200], DiscordLog[1024],
+    st_FailTest[150], global_str[1024], global_str2[500]
+    ;
+
+//-=  Vars - WindowsScreen and Error Command =-
+new Text:tdError[3], Text:TD_SERVERNAME[2];
+
+//-= Discord Channel And RolTest Var =-
+new DCC_Channel:ChannelBot, RolTestErrors[MAX_PLAYERS];
 
 /*# Anim SAMP Library#*/
 new const AnimLibs[][] = {
