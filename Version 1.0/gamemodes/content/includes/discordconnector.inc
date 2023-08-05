@@ -2,10 +2,10 @@
  * Version v0.3.5
  * made by maddinat0r
  */
- #define DCHANNEL_LOG	"" // Insert ID of Channel Log. (Canal donde se enviaran mensajes de Ingreso, desconexion y registro)
- #define DCHANNEL_CHAT	"" // Insert If of Channel Message Text. (Canal donde se enviaran TODAS las conversaciones que tengan los usuarios)
- #define DCHANNEL_FACC	"" // Insert ID of Channel Messages Faction Text. (Canal donde se enviaran TODAS las conversaciones que tengan los usuarios de Faccion)
- #define DCHANNEL_CASH	"" // Insert ID of Channel Log Money. (Canal donde se enviaran los movimientos bancarios hechos por el usuario)
+ #define DCHANNEL_LOG	"1132756421524598855" // Insert ID of Channel Log. (Canal donde se enviaran mensajes de Ingreso, desconexion y registro)
+ #define DCHANNEL_CHAT	"1132763801834504263" // Insert If of Channel Message Text. (Canal donde se enviaran TODAS las conversaciones que tengan los usuarios)
+ #define DCHANNEL_FACC	"1132826229045739571" // Insert ID of Channel Messages Faction Text. (Canal donde se enviaran TODAS las conversaciones que tengan los usuarios de Faccion)
+ #define DCHANNEL_CASH	"1133932984836296774" // Insert ID of Channel Log Money. (Canal donde se enviaran los movimientos bancarios hechos por el usuario)
 
 enum DCC_ChannelType
 {

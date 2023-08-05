@@ -36,10 +36,10 @@ stock Dialog_Close(playerid)
 	s_DialogName[playerid]{0} = 0, 
 	s_DialogOpened[playerid] = 0;
 
-	return ShowPlayerDialog(playerid, -1, DIALOG_STYLE_MSGBOX, " ", " ", " ", "");
+	return acc_ShowPlayerDialog(playerid, -1, DIALOG_STYLE_MSGBOX, " ", " ", " ", "");
 }
 
-stock Open_Dialog(playerid, const function[], style, caption[], info[], button1[], button2[], {Float,_}:...)
+stock Open_Dialog(playerid, const function[], style, caption[], info[], button1[], button2[])
 {
 	static
 	    string[4096],
@@ -71,9 +71,9 @@ stock Open_Dialog(playerid, const function[], style, caption[], info[], button1[
 		#emit LCTRL 5
 		#emit SCTRL 4
 
-		ShowPlayerDialog(playerid, 32700, style, caption, string, button1, button2);
+		acc_ShowPlayerDialog(playerid, 32700, style, caption, string, button1, button2);
 	}
-	else ShowPlayerDialog(playerid, 32700, style, caption, info, button1, button2);
+	else acc_ShowPlayerDialog(playerid, 32700, style, caption, info, button1, button2);
 	
 	s_DialogOpened[playerid] = 1;
 
@@ -86,6 +86,8 @@ stock Open_Dialog(playerid, const function[], style, caption[], info[], button1[
 
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
+	CallRemoteFunction("SetPlayerCurrentDialog", "ii", playerid, dialogid);
+
    	static
 		s_Public = cellmax;
 
@@ -104,7 +106,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 		strcat(string, "dialog_"), strcat(string, s_DialogName[playerid]);
 
-		Dialog_Close(playerid);
+		//Dialog_Close(playerid);
 
 		if ((s_Public == -1) || (CallLocalFunction("OnDialogPerformed", "dsdd", playerid, string[7], response, funcidx(string) != -1)))
 		{
