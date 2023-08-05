@@ -110,11 +110,11 @@ public OnPlayerConnect(playerid)
 	
 	if(!NamePosition || NamePosition < 1 || NamePosition > (strlen(last_name)-2) || InvalidCharacterName(last_name))
 	{//
-		strcat(gbl_log, ""COL_WHITE"Al parecer has ingresado con un nombre invalido al Servidor.\n", sizeof(gbl_log));
-		strcat(gbl_log, ""COL_WHITE"En "COL_SERVER""SERVER_PROJECT""COL_WHITE" no se permiten nombres como el que llevas, ya que\n", sizeof(gbl_log));
-		strcat(gbl_log, ""COL_WHITE"el Servidor carece de un "COL_SERVER"Rol Medio"COL_WHITE", por lo tanto debes modificar tu nombre.\n", sizeof(gbl_log));
-		strcat(gbl_log, ""COL_WHITE"\nEl uso correcto es "COL_SERVER"Nombre_Apellido"COL_WHITE"; Te recomendamos reiniciar una vez\nque hayas cambiado tu nombre.\n", sizeof(gbl_log));
-		Dialog_Show(playerid, 9999, DIALOG_STYLE_MSGBOX, ""COL_SERVER""SERVER_NAME" "COL_WHITE"- ¡Oops! Al parecer hay un error.", gbl_log, "Aceptar", "");
+		strcat(st_InvalidName, ""COL_WHITE"Al parecer has ingresado con un nombre invalido al Servidor.\n", sizeof(st_InvalidName));
+		strcat(st_InvalidName, ""COL_WHITE"En "COL_SERVER""SERVER_PROJECT""COL_WHITE" no se permiten nombres como el que llevas, ya que\n", sizeof(st_InvalidName));
+		strcat(st_InvalidName, ""COL_WHITE"el Servidor carece de un "COL_SERVER"Rol Medio"COL_WHITE", por lo tanto debes modificar tu nombre.\n", sizeof(st_InvalidName));
+		strcat(st_InvalidName, ""COL_WHITE"\nEl uso correcto es "COL_SERVER"Nombre_Apellido"COL_WHITE"; Te recomendamos reiniciar una vez\nque hayas cambiado tu nombre.\n", sizeof(st_InvalidName));
+		Dialog_Show(playerid, 9999, DIALOG_STYLE_MSGBOX, ""COL_SERVER""SERVER_NAME" "COL_WHITE"- ¡Oops! Al parecer hay un error.", st_InvalidName, "Aceptar", "");
 
 		/* Discord: discord.inc */
 		format(DiscordLog, sizeof(DiscordLog), "(( `%s` ha sido expulsado automaticamente por el Servidor.\n\n**Razon:** `Nombre incorrecto`. ))", PlayerTemp(playerid));
@@ -165,21 +165,21 @@ public OnPlayerDisconnect(playerid, reason)
 		{
 			case 0:
 			{
-				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
+				format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
 				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
 			}
 			case 1:
 			{
-				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
+				format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
 				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
 			}
 			case 2:
 			{
-				format(gbl_log, sizeof(gbl_log), "(( `%s(%d)` se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
+				format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
 				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
 			}
 		}
-		ProxDetector(20.0, playerid, gbl_log, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE);
+		ProxDetector(20.0, playerid, st_Disconnect, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE);
 		
 		/* Discord: discord.inc */
 		ConvertDiscordText(DiscordLog),
@@ -222,11 +222,11 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 		cache_get_value_name(0, "Password", hash);
 		format(PlayerData[playerid][jPass], 65, "%s", hash);
 
-		format(glb_str2, sizeof(glb_str2),""COL_WHITE"¡Bienvenido de nuevo "COL_SERVER"%s"COL_WHITE"; Tu ultima conexion fue el:\n"COL_SERVER"%s.\n"COL_WHITE"\n\nIngresa tu contraseña para entrar al Servidor.\n\nSino eres el propietario de dicha cuenta, te\ninvitamos a reloguear con otro nombre que este disponible.",
+		format(global_str, sizeof(global_str),""COL_WHITE"¡Bienvenido de nuevo "COL_SERVER"%s"COL_WHITE"; Tu ultima conexion fue el:\n"COL_SERVER"%s.\n"COL_WHITE"\n\nIngresa tu contraseña para entrar al Servidor.\n\nSino eres el propietario de dicha cuenta, te\ninvitamos a reloguear con otro nombre que este disponible.",
 		PlayerName_(playerid),
 		ReturnDate());
 
-		Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", ""COL_WHITE"Salir");
+		Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, global_str, ""COL_WHITE"Aceptar", ""COL_WHITE"Salir");
 		}else{
 
 		ClearChat(playerid, 100);
@@ -236,9 +236,8 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 		ConvertDiscordText(DiscordLog);
 		SendJoinEmbedMessage(DCHANNEL_LOG, DiscordLog);
 		
-		new str_wlc[500];
-		format(str_wlc, sizeof(str_wlc), ""COL_WHITE"Que tal "COL_SERVER"%s"COL_WHITE".\n\nAntes que nada, gracias por elegirnos como Comunidad.\nA Continuacion realizaras un Examen de Rol con un minimo de  6 preguntas las\ncuales deberas responder todas de manera correcta.\n\nEn caso de fallar 5 de las 6 preguntas, deberas realizar el examen nuevamente.\n\n¡Buena suerte en el Examen!", PlayerTemp(playerid));
-		Dialog_Show(playerid, dExamen, DIALOG_STYLE_MSGBOX, mHeader, str_wlc, ""COL_WHITE"Aceptar", "");
+		format(global_str, sizeof(global_str), ""COL_WHITE"Que tal "COL_SERVER"%s"COL_WHITE".\n\nAntes que nada, gracias por elegirnos como Comunidad.\nA Continuacion realizaras un Examen de Rol con un minimo de  6 preguntas las\ncuales deberas responder todas de manera correcta.\n\nEn caso de fallar 5 de las 6 preguntas, deberas realizar el examen nuevamente.\n\n¡Buena suerte en el Examen!", PlayerTemp(playerid));
+		Dialog_Show(playerid, dExamen, DIALOG_STYLE_MSGBOX, mHeader, global_str, ""COL_WHITE"Aceptar", "");
 	}
 	return 1;
 }
@@ -270,18 +269,14 @@ Dialog:dLogin(playerid, response, listitem, inputtext[])
 	}
 }
 
-Dialog:dExamen(playerid, response, listitem, inputtext[])
-{
-	InitPlayerRoleTest(playerid);
-}
+Dialog:dExamen(playerid, response, listitem, inputtext[]){InitPlayerRoleTest(playerid);}
 
 Dialog:dRegistro(playerid, response, listitem, inputtext[])
 {
-	if(!response)
-	{
-		SHA256_PassHash(inputtext, "123h1h23hh", PlayerData[playerid][TempHash], 64);
-		Dialog_Show(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"A Continuacion indicanos tu genero.\nDependiendo de tu eleccion, se te sera seteada una skin default.", "Masculino", "Femenino");
-	}
+	if(response)
+	SHA256_PassHash(inputtext, "123h1h23hh", PlayerData[playerid][TempHash], 64);
+	Dialog_Show(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"A Continuacion indicanos tu genero.\nDependiendo de tu eleccion, se te sera seteada una skin default.", "Masculino", "Femenino");
+	return 1;
 }
 
 Dialog:dGender(playerid, response, listitem, inputtext[])
@@ -299,13 +294,13 @@ Dialog:dGender(playerid, response, listitem, inputtext[])
 	new strAge[120+1];
 	format(strAge, sizeof(strAge), ""COL_WHITE"Muy bien %s!\nAhora cuentanos. ¿Que edad tienes?", PlayerTemp(playerid), strAge);
 	Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, mHeader, strAge, ">>", "");
+	return 1;
 }
 
 Dialog:dEdad(playerid, response, listitem, inputtext[])
 {
 	new VarAge = strval(inputtext);
-
-	if(!response)
+	if(!response) return 1;
 	format(global_str, sizeof(global_str), ""COL_SERVER"%s"COL_WHITE"; Solo puedes ingresar "COL_YELLOW"valores numericos"COL_WHITE".\nLa edad minima es de "COL_YELLOW"<13> "COL_WHITE"y la maxima de "COL_YELLOW"<50>"COL_WHITE".\n\nPor favor ingresa una "COL_YELLOW"Edad Valida"COL_WHITE".\n¿Qué edad tienes? Cuentanos.", PlayerTemp(playerid), global_str);
 	if(!IsNumeric(inputtext)) return Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
 	if(strval(inputtext) < 13) return Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
@@ -319,16 +314,18 @@ Dialog:dEdad(playerid, response, listitem, inputtext[])
 
 Dialog:dCountry(playerid, response, listitem, inputtext[])
 {
-	if(!response)
-	format(global_str, sizeof(global_str), "Los Santos\nBlueBerry\nMontgomery\nPalomino Creek\nLas Venturas\nFort Cartson\nBayside\nSan Fierro\nAngel Pine", global_str);
-	Dialog_Show(playerid, dSelCountry, DIALOG_STYLE_LIST, "Elige una ciudad.", global_str, ">>", "");
+	if(!response) return 1;
+	format(global_str2, sizeof(global_str2), "Los Santos\nBlueBerry\nMontgomery\nPalomino Creek\nLas Venturas\nFort Cartson\nBayside\nSan Fierro\nAngel Pine");
+	Dialog_Show(playerid, dSelCountry, DIALOG_STYLE_LIST, "Elige una ciudad.", global_str2, ">>", "");
+	return 1;
 }
 
 Dialog:dSelCountry(playerid, response, listitem, inputtext[])
 {
-	if(!response)
+	if(!response) return 1;
 	format(PlayerData[playerid][jCountry], 64, "%s", txtCountry[listitem]);
 	Dialog_Show(playerid, dFinish, DIALOG_STYLE_MSGBOX, mHeader, ""COL_GREEN"Felicidades; Has culminado tu Registro; "COL_WHITE"Recuerda cumplir las\nnormas o podrias ser sancionado.", "Aceptar", "");
+	return 1;
 }
 
 Dialog:dFinish(playerid, response, listitem, inputtext[])
@@ -357,7 +354,9 @@ Dialog:dFinish(playerid, response, listitem, inputtext[])
 	else
 	{
 		SendClientMessage(playerid, HCOL_SERVER, "Cancelaste el Dialogo que tenias abierto, por lo tanto se te ha expulsado del Servidor.");
+		Kick(playerid);
 	}
+	return 1;
 }
 
 public OnPlayerClickTextDraw(playerid, Text:clickedid)

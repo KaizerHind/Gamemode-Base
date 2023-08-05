@@ -92,13 +92,13 @@ Question(playerid, question, error)
                 ConvertDiscordText(DiscordLog),
                 SendRegisterEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
-                format(glb_str2, sizeof(glb_str2), ""COL_WHITE"Bienvenido a "COL_SERVER""SERVER_PROJECT" "COL_SERVER"%s"COL_WHITE"! Felicidades por aprobar el Examen de Rol.\nEsperamos te diviertas dentro de la Comunidad, no olvides respetar las Reglas\ny jugar de manera sana, cualquier falta puede conllevar a una sancion.\n\nSin nada mas que decir; Procedamos a tomar tus datos.\n\nIngresa una contraseña para registrar tu cuenta.", PlayerName(playerid));
-                Dialog_Show(playerid, dRegistro, DIALOG_STYLE_PASSWORD, mHeader, glb_str2, ""COL_WHITE"Aceptar", "");
+                format(global_str, sizeof(global_str), ""COL_WHITE"Bienvenido a "COL_SERVER""SERVER_PROJECT" "COL_SERVER"%s"COL_WHITE"! Felicidades por aprobar el Examen de Rol.\nEsperamos te diviertas dentro de la Comunidad, no olvides respetar las Reglas\ny jugar de manera sana, cualquier falta puede conllevar a una sancion.\n\nSin nada mas que decir; Procedamos a tomar tus datos.\n\nIngresa una contraseña para registrar tu cuenta.", PlayerName(playerid));
+                Dialog_Show(playerid, dRegistro, DIALOG_STYLE_PASSWORD, mHeader, global_str, ""COL_WHITE"Aceptar", "");
             }
             else
             {
-                format(gbl_log, sizeof(gbl_log), ""COL_ERROR"Has fallado el Examen; "COL_WHITE"Intenta de nuevo.\nAciertos: "COL_WHITE"%d/"COL_SERVER"%d", 0 + RolTestErrors[playerid], 6);
-                SendClientMessage(playerid, -1, gbl_log);
+                format(st_FailTest, sizeof(st_FailTest), ""COL_ERROR"Has fallado el Examen; "COL_WHITE"Intenta de nuevo.\nAciertos: "COL_WHITE"%d/"COL_SERVER"%d", 0 + RolTestErrors[playerid], 6);
+                SendClientMessage(playerid, -1, st_FailTest);
 
                 /* Discord: discord.inc */
                 format(DiscordLog, sizeof(DiscordLog), "(( `%s` ha fallado ah realizar el Test de Rol; Comenzara de nuevo. ))\nAciertos: `%d/%d`",  PlayerName(playerid), RolTestErrors[playerid] + 0, 6);
