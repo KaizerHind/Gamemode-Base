@@ -29,10 +29,10 @@ enum jInfo
 
 new PlayerData[MAX_PLAYERS][jInfo];
 
-/* -= Mysql Vars =- */
-
+/* -= Mysql Vars and Others=- */
 new	
 	MySQL:DB,
+    /* # Check and Change the name Roleplay (_)# */
 	IndividualName[MAX_PLAYERS][MAX_PLAYER_NAME],
 	IndividualPlayerName[MAX_PLAYERS][MAX_PLAYER_NAME]
     ;
@@ -91,6 +91,8 @@ new const txtCountry[][] = {
     {"San Fierro"},
     {"Angel Pine"}
 };
+
+
 /*======================================================================*/
 
 /* Macros */
@@ -104,9 +106,9 @@ new const txtCountry[][] = {
 #define SERVER_RCON         ""
 #define SERVER_GRAVITY      "0.008"
 
-#define SERVER_INTROMP3     "insert-url.mp3" //Url de musica que sonara al entrar/loguear.
-#define SERVER_DISCORD      "https://discord.gg/Insert-ID-Url"
-#define SERVER_CONTACT      ""
+#define SERVER_INTROMP3     "insert-url.mp3"
+#define SERVER_DISCORD      "https://discord.gg/AfRennvxE9"
+#define SERVER_CONTACT      "zaikmodding@gmail.com"
 
 #define SERVER_PROJECT      "Only-Name-Server"
 
@@ -126,6 +128,7 @@ main() {
     print("|*- root - Hash password solution.     |");
     print("|*- Galasso - Hash password solution.  |");
     print("|*- r99t - Doubts about MySql.         |");
+    print("|*- DeusExMachina - Solution SP/SD     |");
     print("========================================");
 }
 

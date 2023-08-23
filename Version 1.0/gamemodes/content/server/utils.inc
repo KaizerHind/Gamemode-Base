@@ -12,11 +12,7 @@ stock PlayerFreeze(playerid,seconds=0)
 	return 1;
 }
 
-stock ClearChat(playerid,lineas)
-{
-	Loop(i,lineas,0) SendClientMessage(playerid,-1,"");
- 	return 1;
-}
+stock ClearChat(playerid,lineas){Loop(i,lineas,0) SendClientMessage(playerid,-1,""); return 1;}
 
 forward ReasonKick(playerid); public ReasonKick(playerid) {ClearChat(playerid, 100); SendClientMessage(playerid, HCOL_WHITE, "Reinicia el "COL_SERVER"Launcher"COL_WHITE" e intenta con un nombre "COL_SERVER"Valido"COL_WHITE".");}
 forward DialogKick(playerid); public DialogKick(playerid) return Kick(playerid);
@@ -26,7 +22,7 @@ stock StartLoginCamera(playerid)
     new RandMovement;
     RandMovement = random(3);
     TogglePlayerSpectating(playerid, true);
-    PlayAudioStreamForPlayer(playerid, "https://cdn.discordapp.com/attachments/1070645473481859162/1135263686982893740/Melodic_Instrumental_ROCK_Metal_Arrangements_93.mp3", 0.0, 0.0, 0.0, 0.0, false);
+    PlayAudioStreamForPlayer(playerid, SERVER_INTROMP3, 0.0, 0.0, 0.0, 0.0, false);
     switch(RandMovement)
     {
         case 0:
@@ -159,6 +155,37 @@ stock ConvertDiscordText(string[])
     return true;
 }
 
+forward PlayerIsDying(playerid);
+public PlayerIsDying(playerid)
+{
+    foreach(new a: Player)
+    {
+        if(GetPVarInt(playerid,"Logueado") == 1) 
+        {
+            if(PlayerData[playerid][jHasDied] == 1)
+            {
+                new Float: Health;
+                GetPlayerHealth(playerid, Health);
+                SetPlayerHealth(playerid, Health-5);
+                return 1;
+            }
+        }
+    }
+    return 1;
+}
+
+stock CleanVars(playerid){
+	SetPVarInt(playerid, "Logueado", 0);
+    ClearAnimations(playerid);
+
+    PlayerData[playerid][jHasDied] = false;
+    PlayerData[playerid][jPosX] = 0;
+    PlayerData[playerid][jPosY] = 0;
+    PlayerData[playerid][jPosZ] = 0;
+    PlayerData[playerid][jPosA] = 0;
+    return 1;
+}
+
 ReturnDate()
 {
 	static date[36];
@@ -169,7 +196,6 @@ ReturnDate()
 	format(date, sizeof(date), "%02d-%02d-%d / %02d:%02d", date[0], date[1], date[2], date[3], date[4]);
 	return date;
 }
-
 
 public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
 {
