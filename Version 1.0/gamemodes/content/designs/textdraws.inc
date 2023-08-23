@@ -48,7 +48,7 @@ public OnGameModeInit()
     TextDrawFont(tdError[1], 1);
     TextDrawSetProportional(tdError[1], 1);
 
-    tdError[2] = TextDrawCreate(127.599998, 363.226745, "Comando incorrecto; Usa /Ayuda para mas informacion.");
+    tdError[2] = TextDrawCreate(127.599998, 363.226745, "Incorrect Command; Use /help for more info.");
     TextDrawLetterSize(tdError[2], 0.217200, 1.027555);
     TextDrawTextSize(tdError[2], 246.000000, 0.000000);
     TextDrawAlignment(tdError[2], 1);

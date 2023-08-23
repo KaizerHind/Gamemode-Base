@@ -1,6 +1,6 @@
 public OnGameModeInit()
 {
-    /* # Maps Here # */
+    /* # Intro de Ingreso # */
 
     
     /* ############### DON TOUCH ############### */
