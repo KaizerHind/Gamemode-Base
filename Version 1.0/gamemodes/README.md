@@ -44,6 +44,8 @@
 
 ## ULTIMA ACTUALIZACION 23-08 | NO HABRA MAS ACTUALIZACIONES, A MENOS QUE SEA PARA REPARAR ALGUN ERROR.
 
+## Gracias especiales a r99t por el Soporte y demas personas en los creditos.
+
  **Content:**
 
     |— gamemodes
