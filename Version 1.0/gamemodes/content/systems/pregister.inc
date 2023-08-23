@@ -27,7 +27,7 @@ public OnGameModeInit()
 	/* ################################################# */
 	/* ## A Partir de aqui puedes agregar codigo ## */
 	/* ############################################ */
-
+	SetTimer("PlayerIsDying", 5000, true);
 
 	/* ############### DON TOUCH ############### */
 	#if defined pregister_OnGameModeInit
@@ -74,7 +74,7 @@ public OnGameModeExit()
 
 public OnPlayerRequestClass(playerid, classid)
 {
-	StartLoginCamera(playerid);
+	if(GetPVarInt(playerid,"Logueado") == 1) return SpawnPlayer(playerid);
 	/* ############### DON TOUCH ############### */
 	#if defined pregister_OnPlayerRequestClass
 		return pregister_OnPlayerRequestClass(playerid, classid);
@@ -96,6 +96,8 @@ public OnPlayerRequestClass(playerid, classid)
 
 public OnPlayerConnect(playerid)
 {
+	SetPlayerColor(playerid, HCOL_TMPGRAY);
+	CleanVars(playerid);
 	if(playerid >= MAX_PLAYERS)
 	{
 	    SendClientMessage(playerid, HCOL_WHITE, "Actualmente solo se admiten "COL_WHITE"50 usuarios"COL_WHITE".\nSi deseas ingresar y no puedes, reporta esto en Discord.");
@@ -126,7 +128,6 @@ public OnPlayerConnect(playerid)
 		return 1;
 	}
 
-	SetPlayerColor(playerid, HCOL_TMPGRAY);
 	ValidateUppercase(playerid, last_name, NamePosition);
 	PreloadAnimLibs(playerid);
 	ShowServerNameTD(playerid);
@@ -156,39 +157,33 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerDisconnect(playerid, reason)
 {
-	if (GetPVarInt(playerid, "Logueado") == 1)
+	if(playerid == INVALID_PLAYER_ID) return 0;
+	switch(reason)
 	{
-	 	SetPVarInt(playerid, "Logueado", 1);
-
-		if(playerid == INVALID_PLAYER_ID) return 0;
-		switch(reason)
+		case 0:
 		{
-			case 0:
-			{
-				format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
-				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
-			}
-			case 1:
-			{
-				format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
-				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
-			}
-			case 2:
-			{
-				format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
-				format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
-			}
+			format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
+			format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó por crash o Timed-out. ))", PlayerTemp(playerid), playerid);
 		}
-		ProxDetector(20.0, playerid, st_Disconnect, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE);
-		
-		/* Discord: discord.inc */
-		ConvertDiscordText(DiscordLog),
-		SendGetOutEmbedMessage(DCHANNEL_LOG, DiscordLog);
-
-		SavePlayer(playerid);
-	 	return 1;
+		case 1:
+		{
+			format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
+			format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó voluntariamente. ))", PlayerName(playerid), playerid);
+		}
+		case 2:
+		{
+			format(st_Disconnect, sizeof(st_Disconnect), "(( %s(%d) se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
+			format(DiscordLog, sizeof(DiscordLog), "(( `%s(%d)` se desconectó. `(Fue kickeado o baneado)` ))", PlayerTemp(playerid), playerid);
+		}
 	}
+	ProxDetector(20.0, playerid, st_Disconnect, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE);
+	
+	/* Discord: discord.inc */
+	ConvertDiscordText(DiscordLog),
+	SendGetOutEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
+	SavePlayer(playerid);
+	/* ############### DON TOUCH ############### */
     #if defined pregister_OnPlayerDisconnect
         return pregister_OnPlayerDisconnect(playerid, reason);
     #else
@@ -358,39 +353,4 @@ Dialog:dFinish(playerid, response, listitem, inputtext[])
 	}
 	return 1;
 }
-
-public OnPlayerClickTextDraw(playerid, Text:clickedid)
-{
-    /*new bool:cancel = (clickedid == Text:INVALID_TEXT_DRAW);
-
-    if(IsPlayerConnected(playerid))
-    {
-		if(cancel)
-		{
-			Kick(playerid);
-			return #IgnoredThis#(playerid);
-		}
-		else if(clickedid == #IgnoredThis#)
-		{
-			
-		}
-    }*/
-	/* ############### DON TOUCH ############### */
-	#if defined pregister_OnPlayerClickTextDraw
-		return pregister_OnPlayerClickTextDraw(playerid, Text:clickedid);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined _ALS_OnPlayerClickTextDraw
-	#undef OnPlayerClickTextDraw
-#else
-	#define _ALS_OnPlayerClickTextDraw
-#endif
-
-#define OnPlayerClickTextDraw pregister_OnPlayerClickTextDraw
-#if defined pregister_OnPlayerClickTextDraw
-	forward pregister_OnPlayerClickTextDraw(playerid, Text:clickedid);
-#endif
 
