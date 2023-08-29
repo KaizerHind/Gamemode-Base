@@ -1,4 +1,4 @@
-# Auburn Roleplay - v1.0
+# Project Roleplay - v1.0
 
 ### Changes 1.0 / 27-07
 
