@@ -105,7 +105,7 @@ new const txtCountry[][] = {
 #define Loop(%0,%1,%2)  	for(new %0 = %2; %0 < %1; %0++)
 
 /* Configuracion Manual Server.cfg */
-#define SERVER_NAME         "SERVER-NAME"
+#define SERVER_NAME         "Inser-name-Here"
 #define SERVER_MODE         "Interpretacion"
 #define SERVER_MAP          "San Andreas"
 #define SERVER_LANG         "Language"
@@ -114,11 +114,12 @@ new const txtCountry[][] = {
 
 #define SERVER_DISCORD      "https://discord.gg/AfRennvxE9"
 #define SERVER_CONTACT      "zaikmodding@gmail.com"
+#define INTRO_MUSIC         "URL-MUSIC.mp3"
 
 #define SERVER_PROJECT      "Name"
 /* Mensajes Predeterminados */
 #define mHeader             "\t"COL_SERVER""SERVER_NAME""
-#define mError				""COL_ERROR"The entered password does not correspond\ to the one registered in the "#COL_WHITE"Database.\n\nTry again."
+#define mError				""COL_ERROR"The entered password doesn't correspond\nto the one registered in the "COL_WHITE"Database.\n\nTry again."
 /*======================================================================*/
 
 main() {   
