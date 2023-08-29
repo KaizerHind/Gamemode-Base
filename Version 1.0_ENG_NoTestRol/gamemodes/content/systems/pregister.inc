@@ -114,7 +114,7 @@ public OnPlayerConnect(playerid)
 	CleanVars(playerid);
 	if(playerid >= MAX_PLAYERS)
 	{
-	    SendClientMessage(playerid, HCOL_WHITE, "Currently only "COL_WHITE" 50 "COL_WHITE" users are allowed.\nIf you want to log in and can't, please report this on Discord.");
+	    SendClientMessage(playerid, HCOL_WHITE, "Currently only "COL_WHITE"50"COL_WHITE" users are allowed.\nIf you want to log in and can't, please report this on Discord.");
 		Kick(playerid);
 		return 1;
 	}
@@ -231,22 +231,22 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 		cache_get_value_name(0, "Password", hash);
 		format(PlayerData[playerid][jPass], 65, "%s", hash);
 
-		format(global_str, sizeof(global_str),""COL_WHITE"¡Welcome back "COL_SERVER"%s"COL_WHITE"; Your last connection was:\n"COL_SERVER"%s.\n"COL_WHITE"\n\nEnter your password to enter the Server.\n\nIf you are not the owner of said account, we\ninvite you to relog with another name that is available.",
+		format(global_str, sizeof(global_str),""COL_WHITE"¡Welcome Back "COL_SERVER"%s"COL_WHITE"; Your last session has is:\n"COL_SERVER"%s.\n"COL_WHITE"\n\nEnter your password to enter the Server.\n\nIf you are not the owner of said account, we\ninvite you to relog with another name that is available.",
 		PlayerName_(playerid),
 		ReturnDate());
 
-		Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, global_str, ""COL_WHITE"Enter", ""COL_WHITE"Salir");
+		Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, global_str, ""COL_WHITE"Aceptar", ""COL_WHITE"Exit");
 		}else{
 
 		ClearChat(playerid, 100);
 		StartLoginCamera(playerid);
 		/* Discord: discord.inc */
-		format(DiscordLog, sizeof(DiscordLog), "(( `%s` has entered the Server and will begin to take the Role Exam. **[Part 1/2]** ))",  PlayerTemp(playerid));
+		format(DiscordLog, sizeof(DiscordLog), "(( `%s` hHe has entered the Server and will begin to take the Role Exam. **[Part 1/2]** ))",  PlayerTemp(playerid));
 		ConvertDiscordText(DiscordLog);
 		SendJoinEmbedMessage(DCHANNEL_LOG, DiscordLog);
 		
 		format(global_str, sizeof(global_str), ""COL_WHITE"Welcome to "COL_SERVER""SERVER_PROJECT" "COL_SERVER"%s"COL_WHITE"! We hope you have fun within the Community, don't forget to respect the Rules\nand play in a healthy way, any foul can lead to a sanction.\n\nWithout anything else to say; Let's proceed to take your data.\n\nEnter a password to register your account.", PlayerName(playerid));
-		Dialog_Show(playerid, dRegistro, DIALOG_STYLE_PASSWORD, mHeader, global_str, ""COL_WHITE"Enter", "");
+		Dialog_Show(playerid, dRegistro, DIALOG_STYLE_PASSWORD, mHeader, global_str, "Aceptar", "");
 	}
 	return 1;
 }
@@ -261,10 +261,10 @@ Dialog:dLogin(playerid, response, listitem, inputtext[])
 		{
 			mysql_format(DB, global_str, sizeof global_str, "SELECT * FROM users WHERE Name = '%e'  LIMIT 1", PlayerName(playerid));
 			mysql_tquery(DB, global_str, "PlayerIngreso", "i", playerid);
-			SendClientMessage(playerid, -1, "Bienvenido de vuelta, si tienes duda alguna duda, recuerda usa "COL_SERVER"/ayuda"COL_WHITE" o "COL_SERVER"/duda"COL_WHITE".");
+			SendClientMessage(playerid, -1, "Welcome back, if you have any questions, remember to use "COL_SERVER"/help"COL_WHITE" or "COL_SERVER"/question"COL_WHITE".");
 			
 			/* Discord: discord.inc */
-			format(DiscordLog, sizeof(DiscordLog), "(( `%s` se ha conectado y spawneado en el Servidor.\nSu ultima conexion fue el: `%s` ))",  
+			format(DiscordLog, sizeof(DiscordLog), "(( `%s` has connected and spawned on the Server.\nYour last connection was on: `%s` ))",  
 			PlayerName_(playerid),
 			ReturnDate());
 
@@ -273,7 +273,7 @@ Dialog:dLogin(playerid, response, listitem, inputtext[])
 		}
 		else
 		{
-			Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, mError,  ""COL_WHITE"Entrar", ""COL_WHITE"Salir");
+			Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, mError,  "Enter", "Exit");
 		}
 	}
 }
@@ -282,7 +282,7 @@ Dialog:dRegistro(playerid, response, listitem, inputtext[])
 {
 	if(response)
 	SHA256_PassHash(inputtext, "123h1h23hh", PlayerData[playerid][TempHash], 64);
-	Dialog_Show(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"Next, tell us your gender.\Depending on your choice, a default skin will be set for you.", "Male", "Female");
+	Dialog_Show(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"Next, indicate your gender.\nDepending on your choice, a default skin will be set for you.", "Male", "Female");
 	return 1;
 }
 
