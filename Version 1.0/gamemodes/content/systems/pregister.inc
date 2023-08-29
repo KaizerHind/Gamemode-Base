@@ -2,7 +2,7 @@ public OnGameModeInit()
 {
 	/* ======== [ Configuración general ] ======== */
 	ShowPlayerMarkers(PLAYER_MARKERS_MODE_GLOBAL);
-	ShowNameTags(1);
+	ShowNameTags(true);
 	EnableStuntBonusForAll(0);
 	DisableInteriorEnterExits();
 	ManualVehicleEngineAndLights();
@@ -247,7 +247,7 @@ Dialog:dLogin(playerid, response, listitem, inputtext[])
 		{
 			mysql_format(DB, global_str, sizeof global_str, "SELECT * FROM users WHERE Name = '%e'  LIMIT 1", PlayerName(playerid));
 			mysql_tquery(DB, global_str, "PlayerIngreso", "i", playerid);
-			SendClientMessage(playerid, -1, "Bienvenido de nuevo, te echabamos de menos.");
+			SendClientMessage(playerid, -1, "Bienvenido de vuelta, si tienes duda alguna duda, recuerda usa "COL_SERVER"/ayuda"COL_WHITE" o "COL_SERVER"/duda"COL_WHITE".");
 			
 			/* Discord: discord.inc */
 			format(DiscordLog, sizeof(DiscordLog), "(( `%s` se ha conectado y spawneado en el Servidor.\nSu ultima conexion fue el: `%s` ))",  

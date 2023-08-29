@@ -67,6 +67,20 @@ SendRolTestEmbedMessage(const channel[], const message[])
     return 1;
 }
 
+SendTextEmbedMessage(const channel[], const message[])
+{
+    new DCC_Embed:embed = DCC_CreateEmbed("Chat del Servidor:");
+
+    ChannelBot = DCC_FindChannelById(channel);
+
+    DCC_SetEmbedColor(embed, DC_COL_ORANGE),
+    DCC_SetEmbedDescription(embed, message);
+
+    DCC_SendChannelEmbedMessage(ChannelBot, embed);
+    return 1;
+}
+
+
 public DCC_OnMessageCreate(DCC_Message:message) 
 {
 

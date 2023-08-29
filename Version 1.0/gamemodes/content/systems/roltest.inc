@@ -88,7 +88,7 @@ Question(playerid, question, error)
                 SendRolTestEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
                 /* Discord: discord.inc */
-                format(DiscordLog, sizeof(DiscordLog), "(( `%s` comenzara a registrar su Cuenta en el Servidor. **[Part 2/2]**))", PlayerName(playerid));
+                format(DiscordLog, sizeof(DiscordLog), "(( `%s` comenzara a registrar su Cuenta en el Servidor. **[Part 2/3]**))", PlayerName(playerid));
                 ConvertDiscordText(DiscordLog),
                 SendRegisterEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
@@ -126,7 +126,7 @@ Dialog:DialogQuestion_0(playerid, response, listitem, inputtext[])
 {
     if (!response)
     {
-        SendClientMessage(playerid, -1, "Has omitido de la pregunta #1.");
+        SendClientMessage(playerid, -1, "Has omitido de la pregunta "COL_RED"#1.");
     }
 
     switch (listitem)
@@ -141,7 +141,7 @@ Dialog:DialogQuestion_1(playerid, response, listitem, inputtext[])
 {
     if (!response)
     {
-        SendClientMessage(playerid, -1, "Has omitido de la pregunta #2.");
+        SendClientMessage(playerid, -1, "Has omitido de la pregunta "COL_RED"#2.");
     }
 
     switch (listitem)
@@ -156,7 +156,7 @@ Dialog:DialogQuestion_2(playerid, response, listitem, inputtext[])
 {
     if (!response)
     {
-        SendClientMessage(playerid, -1, "Has omitido de la pregunta #3.");
+        SendClientMessage(playerid, -1, "Has omitido de la pregunta "COL_RED"#3.");
     }
 
     switch (listitem)
@@ -171,7 +171,7 @@ Dialog:DialogQuestion_3(playerid, response, listitem, inputtext[])
 {
     if (!response)
     {
-        SendClientMessage(playerid, -1, "Has omitido de la pregunta #4.");
+        SendClientMessage(playerid, -1, "Has omitido de la pregunta "COL_RED"#4.");
     }
 
     switch (listitem)
@@ -186,7 +186,7 @@ Dialog:DialogQuestion_4(playerid, response, listitem, inputtext[])
 {
     if (!response)
     {
-        SendClientMessage(playerid, -1, "Has omitido de la pregunta #5.");
+        SendClientMessage(playerid, -1, "Has omitido de la pregunta "COL_RED"#5.");
     }
 
     switch (listitem)
@@ -201,7 +201,7 @@ Dialog:DialogQuestion_5(playerid, response, listitem, inputtext[])
 {
     if (!response)
     {
-        SendClientMessage(playerid, -1, "Has omitido de la pregunta #6.");
+        SendClientMessage(playerid, -1, "Has omitido de la pregunta "COL_RED"#6.");
     }
 
     switch (listitem)
