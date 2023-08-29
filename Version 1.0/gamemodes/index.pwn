@@ -2,9 +2,11 @@
 
 /* ==# Native Includes #== */
 #include    "a_samp"
-#include    "a_mysql"
+#define     FIX_OnRconCommand 1
+#define     FIX_OnClientCheckResponse 1
 #include	"fixes"
-#include    "YSI_Data\y_iterate" 
+#include    "a_mysql"
+#include    "YSI_Data\y_iterate"
 #include    "streamer"
 #include    "sscanf2"
 #include    "zcmd"
@@ -30,6 +32,7 @@
 /* ==# Other Funcs I #== */
 #include	"content/designs/textdraws"
 #include	"content/designs/maps"
+
 /* ==# Commands #== */
 #include    "content/cmds/p_commands"
 
