@@ -1,7 +1,7 @@
 public OnGameModeInit()
 {
     /*# Nombre del Servidor #*/
-    TD_SERVERNAME[0] = TextDrawCreate(71.600036, 304.986785, "Auburn");
+    TD_SERVERNAME[0] = TextDrawCreate(71.600036, 304.986785, "NAME SERVER");
     TextDrawLetterSize(TD_SERVERNAME[0], 0.363599, 1.400889);
     TextDrawTextSize(TD_SERVERNAME[0], 0.000000, 272.000000);
     TextDrawAlignment(TD_SERVERNAME[0], 2);
