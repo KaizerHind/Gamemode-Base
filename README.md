@@ -2,12 +2,13 @@
 # Gamemode Base - Roleplay [MySql]
 
 ### How to install?
+ - Download the [version of the gamemode](https://github.com/KaizerHind/Gamemode-Base/branches/active) that is your preference.
 
- - Download the [database]((https://github.com/KaizerHind/GamemodeBase_MySQL/blob/master/Database/dbserver.sql)), go to [Xampp](http://localhost/phpmyadmin/server_import.php) and create a new clean database, then import the new one.
+ - Import the database go to [Xampp](http://localhost/phpmyadmin/server_import.php) and create a new clean database, then import the new one.
 
- - Download the [gamemode](https://github.com/KaizerHind/Gamemode-Base/archive/refs/heads/1.0.zip) and extract the content to the path you want.
+ - Extract the content to the path you want.
 
- - Lastly, remember to configure the [mysql.ini](https://github.com/KaizerHind/GamemodeBase_MySQL/blob/master/mysql.ini) file, which contains the database configuration.
+ - Lastly, remember to configure the **mysql.ini** file, which contains the database configuration.
 
   **Note Important:** 
 
