@@ -1,7 +1,7 @@
 public OnGameModeInit()
 {
     /*# Nombre del Servidor #*/
-    TD_SERVERNAME[0] = TextDrawCreate(71.600036, 304.986785, "NAME SERVER");
+    TD_SERVERNAME[0] = TextDrawCreate(71.600036, 304.986785, "Auburn");
     TextDrawLetterSize(TD_SERVERNAME[0], 0.363599, 1.400889);
     TextDrawTextSize(TD_SERVERNAME[0], 0.000000, 272.000000);
     TextDrawAlignment(TD_SERVERNAME[0], 2);
@@ -10,7 +10,7 @@ public OnGameModeInit()
     TextDrawSetOutline(TD_SERVERNAME[0], -1);
     TextDrawBackgroundColor(TD_SERVERNAME[0], 255);
     TextDrawFont(TD_SERVERNAME[0], 3);
-    TextDrawSetProportional(TD_SERVERNAME[0], 1);
+    TextDrawSetProportional(TD_SERVERNAME[0], true);
 
     TD_SERVERNAME[1] = TextDrawCreate(70.000038, 318.887634, "Roleplay");
     TextDrawLetterSize(TD_SERVERNAME[1], 0.363599, 1.400889);
@@ -21,7 +21,7 @@ public OnGameModeInit()
     TextDrawSetOutline(TD_SERVERNAME[1], -1);
     TextDrawBackgroundColor(TD_SERVERNAME[1], 255);
     TextDrawFont(TD_SERVERNAME[1], 3);
-    TextDrawSetProportional(TD_SERVERNAME[1], 1);
+    TextDrawSetProportional(TD_SERVERNAME[1], true);
 
     /*# Mensaje que se mostrara al Errar un comando. #*/
     tdError[0] = TextDrawCreate(114.899940, 359.144378, "RedBox");
@@ -29,26 +29,26 @@ public OnGameModeInit()
     TextDrawTextSize(tdError[0], 122.699943, 0.000000);
     TextDrawAlignment(tdError[0], 1);
     TextDrawColor(tdError[0], -1);
-    TextDrawUseBox(tdError[0], 1);
+    TextDrawUseBox(tdError[0], true);
     TextDrawBoxColor(tdError[0], -1237303066);
     TextDrawSetShadow(tdError[0], 0);
     TextDrawBackgroundColor(tdError[0], 255);
     TextDrawFont(tdError[0], 1);
-    TextDrawSetProportional(tdError[0], 1);
+    TextDrawSetProportional(tdError[0], true);
 
     tdError[1] = TextDrawCreate(125.299774, 359.144378, "BlackBox");
     TextDrawLetterSize(tdError[1], 0.000000, 3.000003);
     TextDrawTextSize(tdError[1], 250.000000, 0.000000);
     TextDrawAlignment(tdError[1], 1);
     TextDrawColor(tdError[1], -1);
-    TextDrawUseBox(tdError[1], 1);
+    TextDrawUseBox(tdError[1], true);
     TextDrawBoxColor(tdError[1], 230);
     TextDrawSetShadow(tdError[1], 0);
     TextDrawBackgroundColor(tdError[1], 255);
     TextDrawFont(tdError[1], 1);
-    TextDrawSetProportional(tdError[1], 1);
+    TextDrawSetProportional(tdError[1], true);
 
-    tdError[2] = TextDrawCreate(127.599998, 363.226745, "Incorrect Command; Use /help for more info.");
+    tdError[2] = TextDrawCreate(127.599998, 363.226745, "Comando incorrecto; Usa /Ayuda para mas informacion.");
     TextDrawLetterSize(tdError[2], 0.217200, 1.027555);
     TextDrawTextSize(tdError[2], 246.000000, 0.000000);
     TextDrawAlignment(tdError[2], 1);
@@ -56,7 +56,7 @@ public OnGameModeInit()
     TextDrawSetShadow(tdError[2], 0);
     TextDrawBackgroundColor(tdError[2], 255);
     TextDrawFont(tdError[2], 1);
-    TextDrawSetProportional(tdError[2], 1);
+    TextDrawSetProportional(tdError[2], true);
 
     /* ############### DON TOUCH ############### */
     #if defined ongame_td_OnGameModeInit
