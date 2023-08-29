@@ -16,9 +16,11 @@
 #define HCOL_ORANGE     0xC73B0CFF
 #define HCOL_SKYBLUE    0x02A8ADFF
 #define HCOL_YELLOW     0xBFBC08FF
-#define HCOL_PURPLE     0x6A08BFFF
 #define HCOL_PINK       0xAD02C7FF
 #define HCOL_ERROR      0x700101FF
+
+#define HCOL_ME         0xACC97F22A
+#define HCOL_DO         0x5a7b94FF
 
 /*
 ####################
@@ -36,10 +38,11 @@
 #define COL_ORANGE      "{c73b0c}"
 #define COL_SKYBLUE     "{02a8ad}"
 #define COL_YELLOW      "{bfbc08}"
-#define COL_PURPLE      "{6a08bf}"
 #define COL_PINK        "{ad02c7}"
 #define COL_ERROR       "{700101}"
 
+#define COL_ME          "{cc97f2}"
+#define COL_DO          "{5a7b94}"
 /*
 ####################
 #  Discord Colors  #

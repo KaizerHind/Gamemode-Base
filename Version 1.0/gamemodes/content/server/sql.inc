@@ -5,16 +5,12 @@ forward PlayerIngreso(playerid); public PlayerIngreso(playerid)
     cache_get_value_int(0, "Score", PlayerData[playerid][jScore]);
     cache_get_value_float(0, "Health", PlayerData[playerid][jHealth]);
     cache_get_value_float(0, "Armour", PlayerData[playerid][jArmour]);
-    cache_get_value_int(0, "Died", PlayerData[playerid][jScore]);
+    cache_get_value_int(0, "Died", PlayerData[playerid][jHasDied]);
     cache_get_value_name(0, "Country", PlayerData[playerid][jCountry], 64);
     cache_get_value_float(0, "PosX", PlayerData[playerid][jPosX]);
     cache_get_value_float(0, "PosY", PlayerData[playerid][jPosY]);
     cache_get_value_float(0, "PosZ", PlayerData[playerid][jPosZ]);
     cache_get_value_float(0, "PosA", PlayerData[playerid][jPosA]);
-
-    SetPlayerScore(playerid, PlayerData[playerid][jScore]);
-    SetPlayerHealth(playerid, PlayerData[playerid][jHealth]);
-    SetPlayerArmour(playerid, PlayerData[playerid][jArmour]);
 
     AccountLoaded(playerid);
     return 1;
@@ -31,6 +27,13 @@ forward AccountLoaded(playerid); public AccountLoaded(playerid){
 	
     SpawnPlayer(playerid);
     SetPVarInt(playerid, "Logueado", 1);
+	if(PlayerData[playerid][jHasDied] == 1)
+	{
+		SendClientMessage(playerid, HCOL_RED, "Te has desconectado en medio de un rol o estando herido, si crees que es una equivocacion, usa /soporte.");
+		ClearDiedAnims(playerid);
+        SetPlayerHealth(playerid, PlayerData[playerid][jHealth] = 100);
+		return 1;
+	}
     return 1;
 }
 
@@ -62,14 +65,13 @@ forward FinishedIntro(playerid); public FinishedIntro(playerid)
 }
 
 stock SavePlayer(playerid) {
-
     GetPlayerHealth(playerid, PlayerData[playerid][jHealth]);
     GetPlayerArmour(playerid, PlayerData[playerid][jArmour]);
     GetPlayerScore(PlayerData[playerid][jScore]);
     GetPlayerPos(playerid, PlayerData[playerid][jPosX], PlayerData[playerid][jPosY], PlayerData[playerid][jPosZ]);
     GetPlayerFacingAngle(playerid, PlayerData[playerid][jPosA]);
 
-    ReturnDate();
+    //ReturnDate();
 
     mysql_format(DB, global_str, sizeof(global_str), "UPDATE users SET Score = '%d', Health = '%f', Armour = '%f', Died = '%d', Skin = '%d', Country = '%e', Acc_Last_Session = '%s', PosX = %f, PosY = %f, PosZ = %f, PosA = %f  WHERE ID = '%d' LIMIT 1",
         PlayerData[playerid][jScore],

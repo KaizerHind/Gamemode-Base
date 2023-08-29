@@ -22,7 +22,7 @@ stock StartLoginCamera(playerid)
     new RandMovement;
     RandMovement = random(3);
     TogglePlayerSpectating(playerid, true);
-    PlayAudioStreamForPlayer(playerid, SERVER_INTROMP3, 0.0, 0.0, 0.0, 0.0, false);
+    PlayAudioStreamForPlayer(playerid, "https://cdn.discordapp.com/attachments/1070645473481859162/1135263686982893740/Melodic_Instrumental_ROCK_Metal_Arrangements_93.mp3", 0.0, 0.0, 0.0, 0.0, false);
     switch(RandMovement)
     {
         case 0:
@@ -47,7 +47,7 @@ stock StartLoginCamera(playerid)
 forward PreloadAnimLibs(playerid);
 public PreloadAnimLibs(playerid) {
   for(new i = 0; i < sizeof(AnimLibs); i++) {
-      ApplyAnimation(playerid, AnimLibs[i], "null", 4.0, 0, 0, 0, 0, 0, 1);
+      ApplyAnimation(playerid, AnimLibs[i], "null", 4.0, false, false, false, false, false, true);
   }
   return 1;
 }
@@ -93,7 +93,6 @@ ValidateUppercase(playerid, lastname[], nPosition)
 
 	return true;
 }
-
 
 stock alm(string[],string2[]){strmid(string,string2,0,strlen(string2),strlen(string2)+1); return 1;}
 
@@ -169,6 +168,10 @@ public PlayerIsDying(playerid)
                 SetPlayerHealth(playerid, Health-5);
                 return 1;
             }
+            else if(PlayerData[playerid][jHasDied] == 2)
+            {			
+			    SetTimerEx("ClearDiedAnims", 6000, false, "d", playerid);
+            }
         }
     }
     return 1;
@@ -183,6 +186,10 @@ stock CleanVars(playerid){
     PlayerData[playerid][jPosY] = 0;
     PlayerData[playerid][jPosZ] = 0;
     PlayerData[playerid][jPosA] = 0;
+
+    PlayerData[playerid][jAccent] = 0;
+
+    PlayerMuted[playerid] = 0;
     return 1;
 }
 
@@ -197,10 +204,50 @@ ReturnDate()
 	return date;
 }
 
+forward WaitingAttemp(playerid); public WaitingAttemp(playerid){AttemptAction[playerid] = 0;}
+
+forward s_err_command(playerid); public s_err_command(playerid) { ShowErrorNotify(playerid); PlayerPlaySound(playerid, 1054, 0.0, 0.0, 0.0); }
+forward h_err_command(playerid); public h_err_command(playerid) { HideErrorNotify(playerid); }
+
+stock ShowErrorNotify(playerid)
+{
+   TextDrawShowForPlayer(playerid,tdError[0]);
+   TextDrawShowForPlayer(playerid,tdError[1]);
+   TextDrawShowForPlayer(playerid,tdError[2]);
+}
+
+stock HideErrorNotify(playerid)
+{
+   TextDrawHideForPlayer(playerid, tdError[0]);
+   TextDrawHideForPlayer(playerid, tdError[1]);
+   TextDrawHideForPlayer(playerid, tdError[2]);
+}
+
+forward ClearDiedAnims(playerid); public ClearDiedAnims(playerid) { ClearAnimations(playerid, true); PlayerData[playerid][jHasDied] = 0;}
+
 public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
 {
     printf("ERROR SQL: Query: %s, callback: %s, error: %s",query,callback,error);
     return 1;
+}
+
+//Cercanía de jugadores
+forward GetPlayerInRange(Float:radi, playerid, targetid);
+public GetPlayerInRange(Float:radi, playerid, targetid)
+{
+	new Float:posx, Float:posy, Float:posz;
+	new Float:oldposx, Float:oldposy, Float:oldposz;
+	new Float:tempposx, Float:tempposy, Float:tempposz;
+	GetPlayerPos(playerid, oldposx, oldposy, oldposz);
+	GetPlayerPos(targetid, posx, posy, posz);
+	tempposx = (oldposx -posx);
+	tempposy = (oldposy -posy);
+	tempposz = (oldposz -posz);
+	if(((tempposx < radi) && (tempposx > -radi)) && ((tempposy < radi) && (tempposy > -radi)) && ((tempposz < radi) && (tempposz > -radi)))
+	{
+	    return 1;
+	}
+	return 0;
 }
 
 //https://sampforum.blast.hk/showthread.php?tid=80850&pid=307442#pid307442

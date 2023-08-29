@@ -24,7 +24,9 @@ enum jInfo
  	Float:jPosX,
  	Float:jPosY,
  	Float:jPosZ,
-    Float:jPosA
+    Float:jPosA,
+    
+    jAccent,
 }
 
 new PlayerData[MAX_PLAYERS][jInfo];
@@ -34,7 +36,11 @@ new
 	MySQL:DB,
     /* # Check and Change the name Roleplay (_)# */
 	IndividualName[MAX_PLAYERS][MAX_PLAYER_NAME],
-	IndividualPlayerName[MAX_PLAYERS][MAX_PLAYER_NAME]
+	IndividualPlayerName[MAX_PLAYERS][MAX_PLAYER_NAME],
+    /* # Chechk if Player are Muted # */
+    PlayerMuted[MAX_PLAYERS],
+    /* # Wait Time Command */
+    AttemptAction[MAX_PLAYERS]
     ;
 
 //-= String Messages =-
@@ -99,18 +105,17 @@ new const txtCountry[][] = {
 #define Loop(%0,%1,%2)  	for(new %0 = %2; %0 < %1; %0++)
 
 /* Configuracion Manual Server.cfg */
-#define SERVER_NAME         "My-Server-Name"
-#define SERVER_MODE         "Insert-Game-Mode"
-#define SERVER_MAP          "Insert-City"
-#define SERVER_LANG         "Language"
+#define SERVER_NAME         "Auburn - Juego de Rol"
+#define SERVER_MODE         "Interpretacion"
+#define SERVER_MAP          "Los Santos"
+#define SERVER_LANG         "Español/Spanish"
 #define SERVER_RCON         ""
 #define SERVER_GRAVITY      "0.008"
 
-#define SERVER_INTROMP3     "insert-url.mp3"
 #define SERVER_DISCORD      "https://discord.gg/AfRennvxE9"
 #define SERVER_CONTACT      "zaikmodding@gmail.com"
 
-#define SERVER_PROJECT      "Only-Name-Server"
+#define SERVER_PROJECT      "Auburn"
 
 /* Mensajes Predeterminados */
 #define mHeader             "\t"COL_SERVER""SERVER_NAME""
