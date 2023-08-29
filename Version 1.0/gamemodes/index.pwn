@@ -1,3 +1,8 @@
+/*
+# RECUERDA AÑADIR EN SERVER.CFG Y EN './content/discordconnector.inc' EL ID             #
+# DE TU CANAL DE LOGS, DE LO CONTRARIO PUEDES PRESENTAR ALGUNOS PROBLEMAS AL COMPILAR.  #
+*/
+
 #define SSCANF_NO_NICE_FEATURES
 
 /* ==# Native Includes #== */
