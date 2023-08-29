@@ -105,17 +105,17 @@ new const txtCountry[][] = {
 #define Loop(%0,%1,%2)  	for(new %0 = %2; %0 < %1; %0++)
 
 /* Configuracion Manual Server.cfg */
-#define SERVER_NAME         "Auburn - Juego de Rol"
+#define SERVER_NAME         "SERVER-NAME"
 #define SERVER_MODE         "Interpretacion"
-#define SERVER_MAP          "Los Santos"
-#define SERVER_LANG         "Español/Spanish"
+#define SERVER_MAP          "San Andreas"
+#define SERVER_LANG         "Language"
 #define SERVER_RCON         ""
 #define SERVER_GRAVITY      "0.008"
 
 #define SERVER_DISCORD      "https://discord.gg/AfRennvxE9"
 #define SERVER_CONTACT      "zaikmodding@gmail.com"
 
-#define SERVER_PROJECT      "Auburn"
+#define SERVER_PROJECT      "Name"
 
 /* Mensajes Predeterminados */
 #define mHeader             "\t"COL_SERVER""SERVER_NAME""
