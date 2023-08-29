@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2023 a las 23:44:01
+-- Tiempo de generación: 29-08-2023 a las 05:20:00
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.2.34
 
@@ -37,7 +37,7 @@ CREATE TABLE `users` (
   `Score` int(4) NOT NULL,
   `Health` float NOT NULL DEFAULT 100,
   `Armour` float NOT NULL DEFAULT 0,
-  `Died` int(2) NOT NULL,
+  `Died` smallint(3) NOT NULL,
   `Country` varchar(100) NOT NULL,
   `Account_Register` varchar(40) CHARACTER SET latin1 DEFAULT '0',
   `Acc_Last_Session` varchar(40) CHARACTER SET latin1 DEFAULT '0',
