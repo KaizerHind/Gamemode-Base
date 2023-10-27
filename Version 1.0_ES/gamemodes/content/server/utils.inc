@@ -2,21 +2,29 @@
 # INFORMACION: 
 # La mayoria de funciones aqui presentes son funciones estaticas, fijas y/o temporales, es un poco facil deducir que hace cada una.
 
-# PlayerFreeze/PlayerUnfreeze = Congelamos o descongelamos al jugador.
+# PlayerFreeze/PlayerUnfreeze = Congelamos o descongelamos al jugador por un lapso de tiempo.
 # ClearChat = Realiza una limpieza del chat.
 # ReasonKick & DialogKick = Timer de expulsion por nombre erroneo.
+# CancelDialog & TimerKick = Expulsion por cancelar el Dialogo de registro u Otro.
+# RestartRoleTest = Reinicia al jugador para realizar el Test de Rol nuevamente.
 # StartLoginCamera = Intro del Servidor.
 # PreloadAnimLibs = Cargado de liberia de animaciones.
 # ShowServerNameTD || CommandError = Textdraws del Servidor.
 # Shortname || PlayerName || PlayerName_ = Chequeo y llamado del nombre del jugador.
-# InvalidCharacterName = Verificacion de nombre invalido.
+# ValidateUppercase = Validacion del uso de _ En el nombre.
+# InvalidCharacterName = Verificacion de carateres al usar un nombre invalido.
 # ConvertDiscordText = Convierte el texto enviado a Discord con un formato normal sin caracteres extraños.
 # PlayerIsDying = Verificacion y reduccion de vida.
 # CleanVars = Limpieza de variables.
-# ReturnDate = Retono de fecha. (Hay un error por fixear en el inicio de sesion)0
 # WaitingAttemp = Tiempo de espera para usar un comando.
 # ShowErrorNotify || HideErrorNotify || s_err_command || h_err_command = Textdraw Error de comando.
 # ClearDiedAnims = Limpieza de funcion al morir y/o respawnear.
+# AutoRol = Realiza un Rol automatico ya asignado.
+# alm = Funcion de ayuda en verificacion/asignacion de ciertos datos.
+# UserMessage = Envia un mensaje al otro usuario para notificar algo. (Puede usarse cuando recibes una transferencia de dinero, etc)
+# ReturnDate || ReturnLastSession = Almacena la fecha de Registro y el otro Almacena la ultima vez que ingreso.
+# GetMonth = Obtienes datos acerca del mes actual, el cual es almacenado en el ultimo ingreso al Servidor.
+# OnQueryError = En caso de haber algun error de consulta al encender el Gamemode, sera mostrado en la consola.
 # GetPlayerInRange = Cercania de jugadores.
 # ProxDetector = Detector de mensajes.
 */
@@ -40,12 +48,19 @@ stock ClearChat(playerid,lineas){Loop(i,lineas,0) SendClientMessage(playerid,-1,
 forward ReasonKick(playerid); public ReasonKick(playerid) {ClearChat(playerid, 100); SendClientMessage(playerid, HCOL_WHITE, "Reinicia el "COL_SERVER"Launcher"COL_WHITE" e intenta con un nombre "COL_SERVER"Valido"COL_WHITE".");}
 forward DialogKick(playerid); public DialogKick(playerid) return Kick(playerid);
 
+forward CancelDialog(playerid); public CancelDialog(playerid) {ClearChat(playerid, 100); SendClientMessage(playerid, HCOL_SERVER, "Has Cancelado el Dialogo que tenias abierto; Te invitamos a re-ingresar nuevamente.");}
+forward RestartRoleTest(playerid); public RestartRoleTest(playerid) {InitPlayerRoleTest(playerid); SendClientMessage(playerid, HCOL_WHITE, "Al parecer intentaste evadir una de las preguntas, deberas reiniciar el "COL_RED"Examen de Rol."); return 1;}
+
+stock TimerKick(playerid){SetTimerEx("CancelDialog", 100, false, "i", playerid); SetTimerEx("DialogKick", 100, false, "i", playerid);return 1;}
+
 stock StartLoginCamera(playerid)
 {
     new RandMovement;
     RandMovement = random(3);
     TogglePlayerSpectating(playerid, true);
     PlayAudioStreamForPlayer(playerid, "https://cdn.discordapp.com/attachments/1070645473481859162/1135263686982893740/Melodic_Instrumental_ROCK_Metal_Arrangements_93.mp3", 0.0, 0.0, 0.0, 0.0, false);
+    ClearChat(playerid, 100);
+
     switch(RandMovement)
     {
         case 0:
@@ -75,17 +90,9 @@ public PreloadAnimLibs(playerid) {
   return 1;
 }
 
-stock ShowServerNameTD(playerid)
-{
-	TextDrawShowForPlayer(playerid, TD_SERVERNAME[0]);
-	TextDrawShowForPlayer(playerid, TD_SERVERNAME[1]);
-	return 1;
-}
+stock ShowServerNameTD(playerid){TextDrawShowForPlayer(playerid, TD_SERVERNAME[0]); TextDrawShowForPlayer(playerid, TD_SERVERNAME[1]); return 1;}
 
-stock CommandError(playerid)
-{
-	TextDrawShowForPlayer(playerid, tdError[0]); TextDrawShowForPlayer(playerid, tdError[1]); TextDrawShowForPlayer(playerid, tdError[2]); return 1;
-}
+stock CommandError(playerid){TextDrawShowForPlayer(playerid, tdError[0]); TextDrawShowForPlayer(playerid, tdError[1]); TextDrawShowForPlayer(playerid, tdError[2]); return 1;}
 
 stock Shortname(playerid){return IndividualName[playerid];}
 
@@ -116,8 +123,6 @@ ValidateUppercase(playerid, lastname[], nPosition)
 
 	return true;
 }
-
-stock alm(string[],string2[]){strmid(string,string2,0,strlen(string2),strlen(string2)+1); return 1;}
 
 stock InvalidCharacterName(str[])
 {
@@ -201,10 +206,20 @@ public PlayerIsDying(playerid)
 }
 
 stock CleanVars(playerid){
-	SetPVarInt(playerid, "Logueado", 0);
+
     ClearAnimations(playerid);
 
-    PlayerData[playerid][jHasDied] = false;
+    //PlayerData[playerid] = ResetVars;
+
+    PlayerData[playerid][jSkin] = 0;
+    PlayerData[playerid][jGender] = 0;
+    PlayerData[playerid][jAge] = 0;
+    PlayerData[playerid][jScore] = 0;
+    PlayerData[playerid][jHealth] = 0;
+    PlayerData[playerid][jArmour] = 0;
+    PlayerData[playerid][jHasDied] = 0;
+    alm(PlayerData[playerid][jCountry], "none");
+
     PlayerData[playerid][jPosX] = 0;
     PlayerData[playerid][jPosY] = 0;
     PlayerData[playerid][jPosZ] = 0;
@@ -212,19 +227,10 @@ stock CleanVars(playerid){
 
     PlayerData[playerid][jAccent] = 0;
 
+    alm(PlayerData[playerid][jLastConec], "none");
     PlayerMuted[playerid] = 0;
+
     return 1;
-}
-
-ReturnDate()
-{
-	static date[36];
-
-	getdate(date[2], date[1], date[0]);
-	gettime(date[3], date[4], date[5]);
-
-	format(date, sizeof(date), "%02d-%02d-%d / %02d:%02d", date[0], date[1], date[2], date[3], date[4]);
-	return date;
 }
 
 forward WaitingAttemp(playerid); public WaitingAttemp(playerid){AttemptAction[playerid] = 0;}
@@ -247,6 +253,123 @@ stock HideErrorNotify(playerid)
 }
 
 forward ClearDiedAnims(playerid); public ClearDiedAnims(playerid) { ClearAnimations(playerid, true); PlayerData[playerid][jHasDied] = 0;}
+
+stock AutoRol(playerid, rol[])
+{
+	new string[250];
+	format(string, sizeof(string), "* %s %s *", PlayerName(playerid), rol);
+	ProxDetector(20.0, playerid, string, HCOL_ME, HCOL_ME, HCOL_ME, HCOL_ME, HCOL_ME);
+	return 1;
+}
+
+stock alm(string[],string2[]){strmid(string,string2,0,strlen(string2),strlen(string2)+1); return 1;}
+
+stock UserMessage(playerID, color, message[], { _, Float, Text3D, Menu, Text, DB, DBResult, bool, File, hex, bit, bit_byte, Bit }:...)
+{
+	if (playerID == INVALID_PLAYER_ID)
+	{
+		return 0;
+	}
+
+	new targetString[256];
+	new length = strlen(message);
+	new argumentIndex = 2;
+	for (new character = 0; character < length; character++)
+	{
+		new isFormatChar;
+		if (message[character] == '%')
+		{
+			if (character + 1 < length)			{
+				switch (message[character + 1])
+				{
+					case '%':
+					{
+						strcat(targetString, "%");
+						isFormatChar = true;
+					}
+					case 'c':
+					{
+						argumentIndex++;
+						format(targetString, sizeof(targetString), "%s%c", targetString, getarg(argumentIndex));
+						isFormatChar = true;
+					}
+					case 'd':
+					{
+						argumentIndex++;
+						format(targetString, sizeof(targetString), "%s%d", targetString, getarg(argumentIndex));
+						isFormatChar = true;
+					}
+					case 'f':
+					{
+						argumentIndex++;
+						format(targetString, sizeof(targetString), "%s%f", targetString, getarg(argumentIndex));
+						isFormatChar = true;
+					}
+					case 's':
+					{
+						argumentIndex++;
+						new string[256];
+						GetStArg(argumentIndex, string);
+						strcat(targetString, string);
+						isFormatChar = true;
+					}
+				}
+			}
+		}
+		if (isFormatChar)
+		{
+			character++;
+		}
+		else
+		{
+			format(targetString, sizeof(targetString), "%s%c", targetString, message[character]);
+		}
+	}
+	SendClientMessage(playerID, color, targetString);
+	return 1;
+}
+
+ReturnDate()
+{
+	static date[36];
+
+	getdate(date[2], date[1], date[0]);
+	gettime(date[3], date[4], date[5]);
+
+	format(date, sizeof(date), "%02d-%02d-%d / %02d:%02d", date[0], date[1], date[2], date[3], date[4]);
+	return date;
+}
+
+ReturnLastSession()
+{
+    new Ano, Mes, Dia, Hora, Minutos, Segundos, gformat[256];
+    getdate(Ano, Mes, Dia);
+    gettime(Hora, Minutos, Segundos);
+    if (Hora >= 12) format(gformat, sizeof gformat, "%02d:%02d:%02d PM - %s %02d del %02d", (Hora == 12) ? (12) : (Hora - 12), Minutos, Segundos, GetMonth(Mes), Dia, Ano);
+    else if (Hora < 12) format(gformat, sizeof gformat, "%02d:%02d:%02d AM - %s %02d del %02d", (Hora == 0) ? (12) : (Hora), Minutos, Segundos, GetMonth(Mes), Dia, Ano);
+    return gformat;
+}
+
+GetMonth(Month)
+{
+    new MonthStr[15];
+    switch(Month)
+    {
+        case 1:  MonthStr = "Enero";
+        case 2:  MonthStr = "Febrero";
+        case 3:  MonthStr = "Marzo";
+        case 4:  MonthStr = "Abril";
+        case 5:  MonthStr = "Mayo";
+        case 6:  MonthStr = "Junio";
+        case 7:  MonthStr = "Julio";
+        case 8:  MonthStr = "Agosto";
+        case 9:  MonthStr = "Septiembre";
+        case 10: MonthStr = "Octubre";
+        case 11: MonthStr = "Noviembre";
+        case 12: MonthStr = "Diciembre";
+    }
+    return MonthStr;
+}
 
 public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
 {

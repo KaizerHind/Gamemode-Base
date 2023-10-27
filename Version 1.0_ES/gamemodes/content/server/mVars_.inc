@@ -13,6 +13,7 @@ enum jInfo
     jName[25],
     jPass[64 + 1],
     TempHash[64 + 1],
+
     jSkin,
     jGender,
     jAge,
@@ -21,22 +22,25 @@ enum jInfo
     Float:jArmour,
     jHasDied,
     jCountry[64],
- 	Float:jPosX,
- 	Float:jPosY,
- 	Float:jPosZ,
+
+    Float:jPosX,
+    Float:jPosY,
+    Float:jPosZ,
     Float:jPosA,
-    
+
     jAccent,
+
+    jLastConec[256]
 }
 
 new PlayerData[MAX_PLAYERS][jInfo];
 
 /* -= Mysql Vars and Others=- */
 new	
-	MySQL:DB,
+    MySQL:DB,
     /* # Check and Change the name Roleplay (_)# */
-	IndividualName[MAX_PLAYERS][MAX_PLAYER_NAME],
-	IndividualPlayerName[MAX_PLAYERS][MAX_PLAYER_NAME],
+    IndividualName[MAX_PLAYERS][MAX_PLAYER_NAME],
+    IndividualPlayerName[MAX_PLAYERS][MAX_PLAYER_NAME],
     /* # Chechk if Player are Muted # */
     PlayerMuted[MAX_PLAYERS],
     /* # Wait Time Command */
@@ -102,7 +106,9 @@ new const txtCountry[][] = {
 /*======================================================================*/
 
 /* Macros */
-#define Loop(%0,%1,%2)  	for(new %0 = %2; %0 < %1; %0++)
+#define Loop(%0,%1,%2)          for(new %0 = %2; %0 < %1; %0++)
+#define AllUserMessage(         UserMessage(INVALID_PLAYER_ID,
+#define GetStArg(%1,%2)         for(new x = 0; getarg(%1,x) != '\0'; x++) %2[x] = getarg(%1,x)
 
 /* Configuracion Manual Server.cfg */
 #define SERVER_NAME         "SERVER-NAME"
@@ -112,7 +118,8 @@ new const txtCountry[][] = {
 #define SERVER_RCON         ""
 #define SERVER_GRAVITY      "0.008"
 
-#define SERVER_DISCORD      "https://discord.gg/AfRennvxE9"
+/*# PawnCode Community #*/
+#define SERVER_DISCORD      "https://discord.gg/RcmTvFPQZw"
 #define SERVER_CONTACT      "zaikmodding@gmail.com"
 
 #define SERVER_PROJECT      "Name"
@@ -130,7 +137,6 @@ main() {
     print("========================================");
     print("|*- KaizerHind - Developer.            |");
     print("|*- D13G0 - Doubts about MySql.        |");
-    print("|*- root - Hash password solution.     |");
     print("|*- Galasso - Hash password solution.  |");
     print("|*- r99t - Doubts about MySql.         |");
     print("|*- DeusExMachina - Solution SP/SD     |");
