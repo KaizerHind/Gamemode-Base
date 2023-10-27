@@ -1,4 +1,4 @@
-# Project Roleplay - v1.0
+# Auburn Roleplay - v1.0
 
 ### Changes 1.0 / 27-07
 
@@ -56,12 +56,20 @@
 
 - Se soluciono un problema el cual no almacenaba la variable de muerte y bugueaba el guardado/seteado del Score.
 - Se implemento el Textdraw-Error-Command, el cual tal como dice su nombre, al ejecutar un comando erroneo, lanzara un sonido + un Textdraw el cual se ocultara.
+
+### Changes 1.0 / 26-10
+- Fue solucionado un problema de actualizacion de datos, debido a que la DB no vinculaba correctamente la ID del Servidor con la existente en la DB. (neethieee)
+- Se hicieron un par de cambios en algunos textos al retornar algun error.
+- Se implementaron un par de comandos nuevos.
+- Se implementaron un par de nuevas funciones, incluida un 'Extract Log'(ExtractPrintf(playerid)) para verificar datos.
+- Fue corregido un error de muestra de Textdraw al ejecutar mal un comando.
+
 ---
 
  **Content:**
 
     |— gamemodes
-    |—— index -		     - File.pwn
+    |—— index - .pwn
     |——— content\           - Content of the server.
     |———— content\cmds      - Commands player & admins
     |———— content\designs   - Maps and Textdraws.
