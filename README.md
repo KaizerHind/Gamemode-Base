@@ -3,6 +3,11 @@
 
 ### How to install?
 
+ - **Español:** Antes de descargar cualquier cosa, primero debes seleccionar el modo de juego que quieres usar para Desarrollar, te preguntaras ¿como puedo escoger? Facil, te enseño un GIF de como hacerlo.
+ - **English:** Before downloading anything, you must first select the game mode you want to use to Develop, you may wonder how can I choose? Easy, I'll show you a GIF of how to do it.
+
+![enter image description here](https://cdn.discordapp.com/attachments/1034266574070218803/1167538125027946607/20231027-1854-56.7512384.gif?ex=654e7d9c&is=653c089c&hm=8dfeee9faccfa00a84d033c4ecbb259d8ed3cc8170d984bd371b2fdedbe77ff8&)
+
  - Download the [database]((https://github.com/KaizerHind/GamemodeBase_MySQL/blob/master/Database/dbserver.sql)), go to [Xampp](http://localhost/phpmyadmin/server_import.php) and create a new clean database, then import the new one.
 
  - Download the [gamemode](https://github.com/KaizerHind/Gamemode-Base/archive/refs/heads/1.0.zip) and extract the content to the path you want.
