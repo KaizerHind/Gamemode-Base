@@ -46,7 +46,7 @@ public OnPlayerSpawn(playerid)
 			ac_SetPlayerPos(playerid, PlayerData[playerid][jPosX], PlayerData[playerid][jPosY], PlayerData[playerid][jPosZ]);
 			ac_GetPlayerFacingAngle(playerid, PlayerData[playerid][jPosA]);
 			SendClientMessage(playerid, HCOL_RED, "* Estas gravemente herido y comienzas a perder sangre..\n"COL_WHITE"");
-			SendClientMessage(playerid, HCOL_DO, "[Anonimo]: * Una personaha visto la situacion y ha llamado al 911. *");
+			SendClientMessage(playerid, HCOL_DO, "[Anonimo]: * Una persona ha visto la situacion y ha llamado al 911. *");
 
 			ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.0, true, false, false, true, 3000, true);
 		}
@@ -64,17 +64,6 @@ public OnPlayerSpawn(playerid)
 		return 1;
 	#endif
 }
-
-#if defined _ALS_OnPlayerSpawn
-	#undef OnPlayerSpawn
-#else
-	#define _ALS_OnPlayerSpawn
-#endif
-
-#define OnPlayerSpawn player_OnPlayerSpawn
-#if defined player_OnPlayerSpawn
-	forward player_OnPlayerSpawn(playerid);
-#endif
 
 public OnPlayerDeath(playerid, killerid, reason)
 {
@@ -97,18 +86,8 @@ public OnPlayerDeath(playerid, killerid, reason)
         return 1;
     #endif
 }
-#if defined _ALS_OnPlayerDeath
-    #undef OnPlayerDeath
-#else
-    #define _ALS_OnPlayerDeath
-#endif
 
-#define OnPlayerDeath player_OnPlayerDeath
-#if defined player_OnPlayerDeath
-    forward player_OnPlayerDeath(playerid, killerid, reason);
-#endif
-
-public OnPlayerText(playerid, text[])
+public OnPlayerText(playerid, text[])	
 {
     if(GetPVarInt(playerid,"Logueado") == 0) return SendClientMessage(playerid, -1, ""COL_ERROR"[Servidor]: "COL_WHITE"Debes haber hecho spawn para enviar mensajes.");
 	if(PlayerMuted[playerid] == 1){SendClientMessage(playerid, -1, ""COL_ERROR"[Servidor]: "COL_WHITE" Estas muteado, no puedes enviar mensajes."); return 0;}
@@ -292,61 +271,22 @@ public OnPlayerText(playerid, text[])
         return 0;
     #endif
 }
-#if defined _ALS_OnPlayerText
-    #undef OnPlayerText
-#else
-    #define _ALS_OnPlayerText
-#endif
 
-#define OnPlayerText player_OnPlayerText
-#if defined player_OnPlayerText
-    forward player_OnPlayerText(playerid, text[]);
-#endif
-
-public OnPlayerCommandPerformed(playerid, cmdtext[], success)
+public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags)
 {
-	static
-		FinalCMD[MAX_PLAYERS],
-		AccountCMD[MAX_PLAYERS];
-
-	new tick = GetTickCount();
-
-	if(tick - FinalCMD[playerid] < 4000)
-	{
-		AccountCMD[playerid] ++;
-		if(AccountCMD[playerid] > 5)
-		{
-			AccountCMD[playerid] = 0;
-		}
-		return 1;
-	}
-
-	FinalCMD[playerid] = tick;
-	AccountCMD[playerid] = 0;
-
-	if(!success)
+	if (result == -1)
 	{
 		SetTimerEx("s_err_command", 0, false, "d", playerid);
 		SetTimerEx("h_err_command", 4000, false, "d", playerid);
-		return 1;
+		return 0;
 	}
     /* ############**DON TOUCH ############***/
     #if defined player_OnPlayerCommandPerformed
-        return player_OnPlayerCommandPerformed(playerid, cmdtext[], success);
+        return player_OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags);
     #else
         return 1;
     #endif
 }
-#if defined _ALS_OnPlayerCommandPerformed
-    #undef OnPlayerCommandPerformed
-#else
-    #define _ALS_OnPlayerCommandPerformed
-#endif
-
-#define OnPlayerCommandPerformed player_OnPlayerCommandPerformed
-#if defined player_OnPlayerCommandPerformed
-    forward player_OnPlayerCommandPerformed(playerid, cmdtext[], success);
-#endif
 
 public OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
@@ -358,10 +298,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
 		{
 			return SendClientMessage(playerid, HCOL_WHITE, "Has cancelado el Textdraw.");
 		}
-		/*else if(clickedid == Variable)
-		{
-			
-		}*/
+		/*else if(clickedid == Variable){}*/
     }
 	/* ############**DON TOUCH ############***/
 	#if defined pregister_OnPlayerClickTextDraw
@@ -371,6 +308,52 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
 	#endif
 }
 
+/* # ALS FORMATS | NO TOUCH # */
+
+#if defined _ALS_OnPlayerSpawn
+	#undef OnPlayerSpawn
+#else
+	#define _ALS_OnPlayerSpawn
+#endif
+
+#define OnPlayerSpawn player_OnPlayerSpawn
+#if defined player_OnPlayerSpawn
+	forward player_OnPlayerSpawn(playerid);
+#endif
+////////////////////////////////////////////
+#if defined _ALS_OnPlayerDeath
+    #undef OnPlayerDeath
+#else
+    #define _ALS_OnPlayerDeath
+#endif
+
+#define OnPlayerDeath player_OnPlayerDeath
+#if defined player_OnPlayerDeath
+    forward player_OnPlayerDeath(playerid, killerid, reason);
+#endif
+////////////////////////////////////////////
+#if defined _ALS_OnPlayerText
+    #undef OnPlayerText
+#else
+    #define _ALS_OnPlayerText
+#endif
+
+#define OnPlayerText player_OnPlayerText
+#if defined player_OnPlayerText
+    forward player_OnPlayerText(playerid, text[]);
+#endif
+////////////////////////////////////////////
+#if defined _ALS_OnPlayerCommandPerformed
+    #undef OnPlayerCommandPerformed
+#else
+    #define _ALS_OnPlayerCommandPerformed
+#endif
+
+#define OnPlayerCommandPerformed player_OnPlayerCommandPerformed
+#if defined player_OnPlayerCommandPerformed
+    forward player_OnPlayerCommandPerformed(playerid, cmdtext[], success);
+#endif
+////////////////////////////////////////////
 #if defined _ALS_OnPlayerClickTextDraw
 	#undef OnPlayerClickTextDraw
 #else

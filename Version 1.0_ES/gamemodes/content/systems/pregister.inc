@@ -12,6 +12,7 @@
 # INFORMACION: OnPlayerDataCheck
 # Verificamos si el jugador ya esta o no registrado.
 */
+
 public OnGameModeInit()
 {
 	/* ======== [ Configuración general ] ======== */
@@ -38,9 +39,7 @@ public OnGameModeInit()
         print("La Conexion con la DB ha Fallado - [MySQL]");
         SendRconCommand("exit");
     }
-	/* ################################################# */
-	/* ## A Partir de aqui puedes agregar codigo ## */
-	/* ############################################ */
+
 	SetTimer("PlayerIsDying", 5000, true);
 
 	/* ############### DON TOUCH ############### */
@@ -50,18 +49,6 @@ public OnGameModeInit()
 		return 1;
 	#endif
 }
-
-#if defined _ALS_OnGameModeInit
-	#undef OnGameModeInit
-#else
-	#define _ALS_OnGameModeInit
-#endif
-
-#define OnGameModeInit pregister_OnGameModeInit
-#if defined pregister_OnGameModeInit
-	forward pregister_OnGameModeInit();
-#endif
-
 
 public OnGameModeExit()
 {
@@ -75,17 +62,6 @@ public OnGameModeExit()
 	#endif
 }
 
-#if defined _ALS_OnGameModeExit
-	#undef OnGameModeExit
-#else
-	#define _ALS_OnGameModeExit
-#endif
-
-#define OnGameModeExit pregister_OnGameModeExit
-#if defined pregister_OnGameModeExit
-	forward pregister_OnGameModeExit();
-#endif
-
 public OnPlayerRequestClass(playerid, classid)
 {
 	if(GetPVarInt(playerid,"Logueado") == 1) return SpawnPlayer(playerid);
@@ -96,17 +72,6 @@ public OnPlayerRequestClass(playerid, classid)
 		return 0;
 	#endif
 }
-
-#if defined _ALS_OnPlayerRequestClass
-	#undef OnPlayerRequestClass
-#else
-	#define _ALS_OnPlayerRequestClass
-#endif
-
-#define OnPlayerRequestClass pregister_OnPlayerRequestClass
-#if defined pregister_OnPlayerRequestClass
-	forward pregister_OnPlayerRequestClass(playerid, classid);
-#endif
 
 public OnPlayerConnect(playerid)
 {
@@ -158,17 +123,6 @@ public OnPlayerConnect(playerid)
 	#endif
 }
 
-#if defined _ALS_OnPlayerConnect
-	#undef OnPlayerConnect
-#else
-	#define _ALS_OnPlayerConnect
-#endif
-
-#define OnPlayerConnect pregister_OnPlayerConnect
-#if defined pregister_OnPlayerConnect
-	forward pregister_OnPlayerConnect(playerid);
-#endif
-
 public OnPlayerDisconnect(playerid, reason)
 {
 	if(playerid == INVALID_PLAYER_ID) return 0;
@@ -192,11 +146,13 @@ public OnPlayerDisconnect(playerid, reason)
 	}
 	ProxDetector(20.0, playerid, st_Disconnect, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE, HCOL_WHITE);
 	
+	SavePlayer(playerid);
+	//ExtractPrintf(playerid);
+
 	/* Discord: discord.inc */
 	ConvertDiscordText(DiscordLog),
 	SendGetOutEmbedMessage(DCHANNEL_LOG, DiscordLog);
 
-	SavePlayer(playerid);
 	/* ############### DON TOUCH ############### */
     #if defined pregister_OnPlayerDisconnect
         return pregister_OnPlayerDisconnect(playerid, reason);
@@ -204,16 +160,6 @@ public OnPlayerDisconnect(playerid, reason)
         return 1;
     #endif
 }
-#if defined _ALS_OnPlayerDisconnect
-    #undef OnPlayerDisconnect
-#else
-    #define _ALS_OnPlayerDisconnect
-#endif
-
-#define OnPlayerDisconnect pregister_OnPlayerDisconnect
-#if defined pregister_OnPlayerDisconnect
-    forward pregister_OnPlayerDisconnect(playerid, reason);
-#endif
 
 forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 	if (IsPlayerNPC(playerid)) return Kick(playerid);
@@ -230,10 +176,12 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 
 		cache_get_value_name(0, "Password", hash);
 		format(PlayerData[playerid][jPass], 65, "%s", hash);
+		cache_get_value_name(0, "Acc_Last_Session", PlayerData[playerid][jLastConec], 256);
 
 		format(global_str, sizeof(global_str),""COL_WHITE"¡Bienvenido de nuevo "COL_SERVER"%s"COL_WHITE"; Tu ultima conexion fue el:\n"COL_SERVER"%s.\n"COL_WHITE"\n\nIngresa tu contraseña para entrar al Servidor.\n\nSino eres el propietario de dicha cuenta, te\ninvitamos a reloguear con otro nombre que este disponible.",
 		PlayerName_(playerid),
-		ReturnDate());
+		PlayerData[playerid][jLastConec]
+        );
 
 		Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, global_str, ""COL_WHITE"Aceptar", ""COL_WHITE"Salir");
 		}else{
@@ -253,10 +201,11 @@ forward OnPlayerDataCheck(playerid); public OnPlayerDataCheck(playerid){
 
 Dialog:dLogin(playerid, response, listitem, inputtext[])
 {
-	if(response)
+	if(!response) Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, global_str, ""COL_WHITE"Aceptar", ""COL_WHITE"Salir");
 	{
 		new megahash[64 + 1];
 		SHA256_PassHash(inputtext, "123h1h23hh", megahash, 64);
+	
 		if(strcmp(PlayerData[playerid][jPass], megahash, false) == 0)
 		{
 			mysql_format(DB, global_str, sizeof global_str, "SELECT * FROM users WHERE Name = '%e'  LIMIT 1", PlayerName(playerid));
@@ -266,26 +215,37 @@ Dialog:dLogin(playerid, response, listitem, inputtext[])
 			/* Discord: discord.inc */
 			format(DiscordLog, sizeof(DiscordLog), "(( `%s` se ha conectado y spawneado en el Servidor.\nSu ultima conexion fue el: `%s` ))",  
 			PlayerName_(playerid),
-			ReturnDate());
+			PlayerData[playerid][jLastConec]);
 
 			ConvertDiscordText(DiscordLog);
 			SendJoinEmbedMessage(DCHANNEL_LOG, DiscordLog);
 		}
 		else
 		{
-			Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, mError,  ""COL_WHITE"Entrar", ""COL_WHITE"Salir");
+			Dialog_Show(playerid, dLogin, DIALOG_STYLE_PASSWORD, mHeader, mError, "Entrar", "Salir");
 		}
+	}
+	return 1;
+}
+
+Dialog:dExamen(playerid, response, listitem, inputtext[])
+{
+	if(response)
+	{
+		InitPlayerRoleTest(playerid);
+	}
+	else
+	{
+		TimerKick(playerid);
 	}
 }
 
-Dialog:dExamen(playerid, response, listitem, inputtext[]){InitPlayerRoleTest(playerid);}
-
 Dialog:dRegistro(playerid, response, listitem, inputtext[])
 {
-	if(response)
+	if (!response) return TimerKick(playerid);
 	SHA256_PassHash(inputtext, "123h1h23hh", PlayerData[playerid][TempHash], 64);
 	Dialog_Show(playerid, dGender, DIALOG_STYLE_MSGBOX, mHeader, ""COL_WHITE"A Continuacion indicanos tu genero.\nDependiendo de tu eleccion, se te sera seteada una skin default.", "Masculino", "Femenino");
-	return 1;
+	return 0;
 }
 
 Dialog:dGender(playerid, response, listitem, inputtext[])
@@ -295,7 +255,7 @@ Dialog:dGender(playerid, response, listitem, inputtext[])
 		PlayerData[playerid][jGender] = 1;
 		PlayerData[playerid][jSkin] = 46;
 	}
-	else if(!response)
+	else if(!response) 
 	{
 		PlayerData[playerid][jGender] = 2;
 		PlayerData[playerid][jSkin] = 12;
@@ -309,7 +269,7 @@ Dialog:dGender(playerid, response, listitem, inputtext[])
 Dialog:dEdad(playerid, response, listitem, inputtext[])
 {
 	new VarAge = strval(inputtext);
-	if(!response) return 1;
+	if(!response) return TimerKick(playerid);
 	format(global_str, sizeof(global_str), ""COL_SERVER"%s"COL_WHITE"; Solo puedes ingresar "COL_YELLOW"valores numericos"COL_WHITE".\nLa edad minima es de "COL_YELLOW"<13> "COL_WHITE"y la maxima de "COL_YELLOW"<50>"COL_WHITE".\n\nPor favor ingresa una "COL_YELLOW"Edad Valida"COL_WHITE".\n¿Qué edad tienes? Cuentanos.", PlayerTemp(playerid), global_str);
 	if(!IsNumeric(inputtext)) return Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
 	if(strval(inputtext) < 13) return Dialog_Show(playerid, dEdad, DIALOG_STYLE_INPUT, ""COL_WHITE"A Continuación dinos tu edad.\t", global_str, "Aceptar", "Cancelar");
@@ -318,37 +278,37 @@ Dialog:dEdad(playerid, response, listitem, inputtext[])
 	PlayerData[playerid][jAge] = VarAge;
 	format(global_str, sizeof(global_str), ""COL_WHITE"Excelente "COL_SERVER"%s"COL_WHITE"; Ya nos haz indicado tu Edad.\nAhora dinos, a que lugar de San Andreas pertenece\ntu personaje.", PlayerTemp(playerid));
 	Dialog_Show(playerid, dCountry, DIALOG_STYLE_MSGBOX, mHeader, global_str, ">>", "");
-	return 1;
+	return 0;
 }
 
 Dialog:dCountry(playerid, response, listitem, inputtext[])
 {
-	if(!response) return 1;
+	if(!response) return TimerKick(playerid);
 	format(global_str2, sizeof(global_str2), "Los Santos\nBlueBerry\nMontgomery\nPalomino Creek\nLas Venturas\nFort Cartson\nBayside\nSan Fierro\nAngel Pine");
 	Dialog_Show(playerid, dSelCountry, DIALOG_STYLE_LIST, "Elige una ciudad.", global_str2, ">>", "");
-	return 1;
+	return 0;
 }
 
 Dialog:dSelCountry(playerid, response, listitem, inputtext[])
 {
-	if(!response) return 1;
+	if(!response) return TimerKick(playerid);
 	format(PlayerData[playerid][jCountry], 64, "%s", txtCountry[listitem]);
 	Dialog_Show(playerid, dFinish, DIALOG_STYLE_MSGBOX, mHeader, ""COL_GREEN"Felicidades; Has culminado tu Registro; "COL_WHITE"Recuerda cumplir las\nnormas o podrias ser sancionado.", "Aceptar", "");
-	return 1;
+	return 0;
 }
 
 Dialog:dFinish(playerid, response, listitem, inputtext[])
 {
 	if(response)
 	{
-		mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Skin, Gender, Age, Country, Account_Register, Acc_Last_Session) VALUES ('%e', '%e', '%i', '%i', '%i', '%e', '%s', '%s')",
+		mysql_format(DB, global_str, sizeof global_str, "INSERT INTO users (Name, Password, Skin, Gender, Age, Country, Account_Register) VALUES ('%e', '%e', '%i', '%i', '%i', '%e', '%s')",
 		PlayerName(playerid),
 		PlayerData[playerid][TempHash],
 		PlayerData[playerid][jSkin],
 		PlayerData[playerid][jGender],
 		PlayerData[playerid][jAge],
 		PlayerData[playerid][jCountry],
-		ReturnDate(), ReturnDate()
+		ReturnDate()
 		);
 
 		PlayerData[playerid][jScore] = 5;
@@ -362,9 +322,91 @@ Dialog:dFinish(playerid, response, listitem, inputtext[])
 	}
 	else
 	{
-		SendClientMessage(playerid, HCOL_SERVER, "Cancelaste el Dialogo que tenias abierto, por lo tanto se te ha expulsado del Servidor.");
-		Kick(playerid);
+		TimerKick(playerid);
 	}
-	return 1;
 }
+
+/* # ALS FORMATS | NO TOUCH # */
+
+#if defined _ALS_OnGameModeInit
+	#undef OnGameModeInit
+#else
+	#define _ALS_OnGameModeInit
+#endif
+
+#define OnGameModeInit pregister_OnGameModeInit
+#if defined pregister_OnGameModeInit
+	forward pregister_OnGameModeInit();
+#endif
+////////////////////////////////////////////
+#if defined _ALS_OnGameModeExit
+	#undef OnGameModeExit
+#else
+	#define _ALS_OnGameModeExit
+#endif
+
+#define OnGameModeExit pregister_OnGameModeExit
+#if defined pregister_OnGameModeExit
+	forward pregister_OnGameModeExit();
+#endif
+////////////////////////////////////////////
+#if defined _ALS_OnPlayerRequestClass
+	#undef OnPlayerRequestClass
+#else
+	#define _ALS_OnPlayerRequestClass
+#endif
+
+#define OnPlayerRequestClass pregister_OnPlayerRequestClass
+#if defined pregister_OnPlayerRequestClass
+	forward pregister_OnPlayerRequestClass(playerid, classid);
+#endif
+////////////////////////////////////////////
+#if defined _ALS_OnPlayerConnect
+	#undef OnPlayerConnect
+#else
+	#define _ALS_OnPlayerConnect
+#endif
+
+#define OnPlayerConnect pregister_OnPlayerConnect
+#if defined pregister_OnPlayerConnect
+	forward pregister_OnPlayerConnect(playerid);
+#endif
+////////////////////////////////////////////
+#if defined _ALS_OnPlayerDisconnect
+    #undef OnPlayerDisconnect
+#else
+    #define _ALS_OnPlayerDisconnect
+#endif
+////////////////////////////////////////////
+#define OnPlayerDisconnect pregister_OnPlayerDisconnect
+#if defined pregister_OnPlayerDisconnect
+    forward pregister_OnPlayerDisconnect(playerid, reason);
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
