@@ -1,8 +1,3 @@
-/*
-# RECUERDA AÑADIR EN SERVER.CFG Y EN './content/discordconnector.inc' EL ID             #
-# DE TU CANAL DE LOGS, DE LO CONTRARIO PUEDES PRESENTAR ALGUNOS PROBLEMAS AL COMPILAR.  #
-*/
-
 #define SSCANF_NO_NICE_FEATURES
 
 /* ==# Native Includes #== */
@@ -14,7 +9,7 @@
 #include    "YSI_Data\y_iterate"
 #include    "streamer"
 #include    "sscanf2"
-#include    "zcmd"
+#include    "PawnCMD.inc"
 
 /* ==# Mini Funcs Modules [not very important] #== */
 #include    "content/includes/discordconnector"
@@ -39,7 +34,8 @@
 #include	"content/designs/maps"
 
 /* ==# Commands #== */
-#include    "content/cmds/p_commands"
+#include    "content/cmds/p_cmds"
+#include    "content/cmds/f_cmds"
 
 /* ==# Other Funcs II #== */
 #include	"content/server/sql"
