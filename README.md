@@ -22,6 +22,7 @@
     D13G0 - Doubts about MySql.
     r99t - Hash password solution and Doubts about MySql.
     Galasso - Hash password solution.
+    Gatini - Doubts about MySql and problems in code.
 
 ---
 
