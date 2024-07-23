@@ -22,6 +22,7 @@
     D13G0 - Doubts about MySql.
     r99t - Hash password solution and Doubts about MySql.
     Galasso - Hash password solution.
+    Gatini - Doubts about MySql and problems in code.
 
 ---
 
@@ -35,7 +36,7 @@
 
 - [streamer](https://github.com/samp-incognito/samp-streamer-plugin/releases/tag/v2.9.5)
 
-- [sscanf](https://github.com/maddinat0r/sscanf)
+- [sscanf 2.13](https://github.com/maddinat0r/sscanf)
 
 - [YSI-Includes(v5.06.1932)](https://github.com/pawn-lang/YSI-Includes/releases/tag/v5.06.1932)
 
