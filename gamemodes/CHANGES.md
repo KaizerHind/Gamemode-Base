@@ -1,4 +1,4 @@
-# Auburn Roleplay - v1.0
+# Changes Gamemode - v1.0
 
 ### Changes 1.0 / 02/03-07 - 2024
 - Se removio la la tabla 'adminlevels' de la base de datos, uniendo de esta manera el nivel administrativo con la Tabla 'users'.
